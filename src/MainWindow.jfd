@@ -1,0 +1,36 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.FlowLayout ) {
+			"hgap": 300
+			"vgap": 190
+		} ) {
+			name: "this"
+			"componentOrientation": sfield java.awt.ComponentOrientation LEFT_TO_RIGHT
+			"iconImage": sfield com.jformdesigner.model.FormObject NULL_VALUE
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
+				"columns": 1
+				"rows": 2
+				"vgap": 20
+			} ) {
+				name: "panel2"
+				"preferredSize": new java.awt.Dimension( 130, 130 )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "button1"
+					"text": "开始游戏"
+					"font": new java.awt.Font( "Microsoft YaHei UI", 0, 16 )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "button2"
+					"text": "选择关卡"
+					"font": new java.awt.Font( "Microsoft YaHei UI", 0, 16 )
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 230, 145 )
+			"size": new java.awt.Dimension( 955, 570 )
+		} )
+	}
+}
