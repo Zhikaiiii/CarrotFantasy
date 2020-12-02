@@ -1,4 +1,5 @@
 package actor;
+import control.Controller;
 
 public abstract class Tower extends Actor {
     // 攻击力

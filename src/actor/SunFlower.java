@@ -7,7 +7,7 @@ public class SunFlower extends Tower{
         super(x, y);
         this.attackPower = 30;
         this.attackRange = 3;
-        this.attackInterval = 1;
+        this.attackInterval = 2;
         this.cost = 200;
         this.cd = 5;
     }
