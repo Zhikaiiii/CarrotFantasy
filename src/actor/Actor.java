@@ -11,12 +11,16 @@ public abstract class Actor {
     protected int hp;
 
     // 构造函数
-    Actor(int x, int y){
+    Actor(int row, int column, int x, int y){
+        this.row = row;
+        this.column = column;
         this.x = x;
         this.y = y;
         this.hp = 1;
     }
-    Actor(int x, int y, int hp){
+    Actor(int row, int column, int x, int y, int hp){
+        this.row = row;
+        this.column = column;
         this.x = x;
         this.y = y;
         this.hp = hp;

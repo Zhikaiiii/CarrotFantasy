@@ -11,8 +11,8 @@ public abstract class Tower extends Actor {
     // 冷却时间
     protected int cd;
 
-    Tower(int x, int y) {
-        super(x, y);
+    Tower(int row, int column, int x, int y) {
+        super(row, column, x, y);
     }
 
     public int getAttackPower(){

@@ -1,14 +1,12 @@
 package control;
 
 
-import java.util.ArrayList;
-
 public class Map {
     private int [][] map;
-    private int [] dx;
-    private int [] dy;
-    private int [] pathX;
-    private int [] pathY;
+    private int [] dColumn;
+    private int [] dRow;
+    private int [] pathColumn;
+    private int [] pathRow;
     // 每格之间的间隔
     private int interval;
     Map(){
@@ -20,36 +18,45 @@ public class Map {
                 {3, 3, 2, 3, 2, 3, 2, 3, 2, 4, 4},
                 {4, 4, 2, 3, 2, 3, 2, 3, 2, 4, 4},
                 {3, 3, 2, 2, 2, 3, 2, 2, 2, 3, 3}};
-        dx = new int[]{1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1};
-        dy = new int[]{0, 0, 1, 1, 1, 1, 0, 0, -1, -1, -1, -1, -1, 0, 0, 1, 1, 1, 1, 1, 0, 0, -1, -1, -1, 0, 0, 0};
-        pathX = new int[]{0, 1, 2, 2, 2, 2, 2, 3, 4, 4, 4, 4, 4, 4, 5, 6, 6, 6, 6, 6, 6, 7, 8, 8, 8, 8, 9, 10};
-        pathY = new int[]{1, 1, 1, 2, 3, 4, 5, 5, 5, 4, 3, 2, 1, 0, 0, 0, 1, 2, 3, 4, 5, 5, 5, 4, 3, 2, 2, 2};
+        dColumn = new int[]{1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1};
+        dRow = new int[]{0, 0, 1, 1, 1, 1, 0, 0, -1, -1, -1, -1, -1, 0, 0, 1, 1, 1, 1, 1, 0, 0, -1, -1, -1, 0, 0, 0};
+        pathColumn = new int[]{0, 1, 2, 2, 2, 2, 2, 3, 4, 4, 4, 4, 4, 4, 5, 6, 6, 6, 6, 6, 6, 7, 8, 8, 8, 8, 9, 10};
+        pathRow = new int[]{1, 1, 1, 2, 3, 4, 5, 5, 5, 4, 3, 2, 1, 0, 0, 0, 1, 2, 3, 4, 5, 5, 5, 4, 3, 2, 2, 2};
+        interval = 80;
 
     }
-    public MapElement getMapElement(int x, int y){
-        return MapElement.values()[map[x][y]];
+    public MapElement getMapElement(int column, int row){
+        return MapElement.values()[map[column][row]];
     }
-    public void setMapElement(int x, int y, MapElement element){
-        map[x][y] = element.ordinal();
+    public void setMapElement(int column, int row, MapElement element){
+        map[column][row] = element.ordinal();
     }
-    public int getStartX(){
-        return 2;
+    public int getStartColumn(){
+        return 0;
     }
-    public int getStartY(){
+    public int getStartRow(){
+        return 1;
+    }
+    public int getEndColumn(){
         return 10;
     }
-    // 得到 下一步的方向
-    public int getDx(int position){
-        return dx[position];
+    public int getEndRow(){
+        return 2;
     }
-    public int getDy(int position){
-        return dy[position];
+
+
+    // 得到 下一步的方向
+    public int getDColumn(int position){
+        return dColumn[position];
+    }
+    public int getDRow(int position){
+        return dRow[position];
     }
     public int getRow(int position){
-        return pathY[position];
+        return pathRow[position];
     }
     public int getColumn(int position){
-        return pathX[position];
+        return pathColumn[position];
     }
 
 

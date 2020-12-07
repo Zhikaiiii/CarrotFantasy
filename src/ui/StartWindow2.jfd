@@ -15,21 +15,31 @@ new FormModel {
 				"rows": 2
 				"vgap": 20
 			} ) {
-				name: "panel2"
-				"preferredSize": new java.awt.Dimension( 130, 130 )
+				name: "panelButton"
+				"preferredSize": new java.awt.Dimension( 160, 130 )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "button1"
-					"text": "开始游戏"
 					"font": new java.awt.Font( "Microsoft YaHei UI", 0, 16 )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/resources/button_start.png" )
+					"borderPainted": false
+					"contentAreaFilled": false
+					"iconTextGap": 0
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"preferredSize": new java.awt.Dimension( 120, 45 )
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "button2"
-					"text": "选择关卡"
 					"font": new java.awt.Font( "Microsoft YaHei UI", 0, 16 )
+					"icon": new com.jformdesigner.model.SwingIcon( 0, "/resources/button_select.png" )
+					"preferredSize": new java.awt.Dimension( 120, 45 )
+					"contentAreaFilled": false
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"borderPainted": false
+					"iconTextGap": 0
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 230, 145 )
+			"location": new java.awt.Point( 285, 160 )
 			"size": new java.awt.Dimension( 955, 570 )
 		} )
 	}

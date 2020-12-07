@@ -1,0 +1,36 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+			"hgap": 0
+			"vgap": 0
+		} ) {
+			name: "this"
+			"preferredSize": new java.awt.Dimension( 880, 540 )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) ) {
+				name: "panelMenu"
+				"opaque": false
+				"preferredSize": new java.awt.Dimension( 880, 60 )
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 1
+				}
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) {
+				"autoSize": false
+			} ) {
+				name: "panelMap"
+				"preferredSize": new java.awt.Dimension( 880, 480 )
+				"opaque": false
+				"minimumSize": new java.awt.Dimension( 880, 480 )
+				auxiliary() {
+					"JavaCodeGenerator.variableModifiers": 1
+				}
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 255, 25 )
+			"size": new java.awt.Dimension( 880, 540 )
+		} )
+	}
+}
