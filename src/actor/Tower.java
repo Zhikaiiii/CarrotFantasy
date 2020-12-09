@@ -1,5 +1,4 @@
 package actor;
-import control.Controller;
 
 public abstract class Tower extends Actor {
     // 攻击力
@@ -9,7 +8,7 @@ public abstract class Tower extends Actor {
     // 价格
     protected int cost;
     // 冷却时间
-    protected int cd;
+    protected int count;
 
     Tower(int row, int column, int x, int y) {
         super(row, column, x, y);
@@ -27,9 +26,11 @@ public abstract class Tower extends Actor {
     public int getCost(){
         return cost;
     }
-    public int getCd(){
-        return cd;
+    public int getCount(){
+        return count;
     }
-
+    public void setCount(int count){
+        this.count = count;
+    }
     public abstract void attack();
 }

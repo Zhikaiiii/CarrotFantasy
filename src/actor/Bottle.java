@@ -7,9 +7,9 @@ public class Bottle extends Tower{
         super(row, column, x, y);
         this.attackPower = 20;
         this.attackRange = 1;
-        this.attackInterval = 1;
+        this.attackInterval = 20;
         this.cost = 100;
-        this.cd = 3;
+        this.count = 3;
     }
 
     @Override
@@ -19,24 +19,34 @@ public class Bottle extends Tower{
         Monster nearestMonster = null;
         synchronized (Controller.allMonster) {
             for (Monster m : Controller.allMonster) {
-                int dist = (int) Math.sqrt((m.getX() - x) ^ 2 + (m.getY() - y) ^ 2);
-                if (dist < minDist) {
-                    minDist = dist;
-                    nearestMonster = m;
+                if(Math.abs(m.getColumn() - column) <= 2 && (Math.abs(m.getRow() - row) <= 2)){
+                    int dist = (int) Math.sqrt(Math.pow(m.getX() - x, 2) + Math.pow(m.getY() - y, 2));
+                    if (dist < minDist) {
+                        minDist = dist;
+                        nearestMonster = m;
+                    }
                 }
+
             }
         }
-        synchronized (Controller.allBullet){
-            int startX = x;
-            int startY = y;
-            assert nearestMonster != null;
-            int endX = nearestMonster.getX();
-            int endY = nearestMonster.getY();
-            Bullet b = new Bullet(row, column, startX, startY, endX, endY, attackPower);
-            Thread t = new Thread(b);
-            Controller.allBullet.add(t);
-            t.start();
+        if(nearestMonster != null){
+            synchronized (Controller.allBullet){
+                int startX = x;
+                int startY = y;
+                int endX = nearestMonster.getX();
+                int endY = nearestMonster.getY();
+//                System.out.println(startX);
+//                System.out.println(startY);
+//                System.out.println(endX);
+//                System.out.println(endY);
+                Bullet b = new Bullet(row, column, startX, startY, endX, endY, attackPower);
+                b.setTargetMonster(nearestMonster);
+                Controller.allBulletLabels.add(Controller.w.addBullet(startX, startY));
+//            Thread t = new Thread(b);
+                Controller.allBullet.add(b);
+            }
         }
+
 
     }
 }

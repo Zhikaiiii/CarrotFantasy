@@ -39,10 +39,10 @@ public class Monster extends Actor{
         // 可能有多个防御塔同时攻击怪物
         synchronized (this){
             this.hp = hp;
-            if(this.hp <=0){
-                Controller.allMonster.remove(this);
-                Controller.updateMoney(this.money);
-            }
+//            if(this.hp <=0){
+////                Controller.allMonster.remove(this);
+//                Controller.updateMoney(this.money);
+//            }
         }
     }
     // 怪物移动

@@ -23,14 +23,17 @@ public class Level {
             case EASY:
                 numWaves = 10;
                 numMonsters = 10;
+                monsterHP = 60;
                 break;
             case MEDIUM:
                 numWaves = 15;
                 numMonsters = 15;
+                monsterHP = 80;
                 break;
             case DIFFICULTY:
                 numWaves = 15;
                 numMonsters = 20;
+                monsterHP = 100;
                 break;
             default:
                 break;

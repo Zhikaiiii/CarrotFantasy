@@ -9,7 +9,7 @@ public class SunFlower extends Tower{
         this.attackRange = 1;
         this.attackInterval = 2;
         this.cost = 200;
-        this.cd = 5;
+        this.count = 5;
     }
 
     @Override

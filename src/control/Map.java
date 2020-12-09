@@ -25,11 +25,11 @@ public class Map {
         interval = 80;
 
     }
-    public MapElement getMapElement(int column, int row){
-        return MapElement.values()[map[column][row]];
+    public MapElement getMapElement(int row, int column){
+        return MapElement.values()[map[row][column]];
     }
-    public void setMapElement(int column, int row, MapElement element){
-        map[column][row] = element.ordinal();
+    public void setMapElement(int row, int column, MapElement element){
+        map[row][column] = element.ordinal();
     }
     public int getStartColumn(){
         return 0;
