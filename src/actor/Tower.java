@@ -5,8 +5,6 @@ public abstract class Tower extends Actor {
     protected int attackPower;
     protected int attackRange;
     protected double attackInterval;
-    // 价格
-    protected int cost;
     // 冷却时间
     protected int count;
 
@@ -23,9 +21,7 @@ public abstract class Tower extends Actor {
     public double getAttackInterval(){
         return attackInterval;
     }
-    public int getCost(){
-        return cost;
-    }
+
     public int getCount(){
         return count;
     }

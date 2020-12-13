@@ -69,20 +69,5 @@ public class Map {
 
 }
 
-class Point{
-    int row;
-    int column;
-    Point(int row, int column){
-        this.row = row;
-        this.column = column;
-    }
-
-    public int getRow(){
-        return row;
-    }
-    public int getColumn(){
-        return column;
-    }
-}
 // 0代表起点，1代表终点，2代表道路，3代表空地，4代表路障, 5代表有防御塔
 enum MapElement {START, END, PATH, EMPTY, BARRIER, HAVETOWER}

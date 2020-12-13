@@ -3,15 +3,18 @@ package actor;
 import control.Controller;
 
 public class Bottle extends Tower{
+    private static final int cost = 100;
     public Bottle(int row, int column, int x, int y) {
         super(row, column, x, y);
         this.attackPower = 20;
         this.attackRange = 1;
         this.attackInterval = 20;
-        this.cost = 100;
         this.count = 3;
     }
 
+    public static int getCost(){
+        return cost;
+    }
     @Override
     public void attack() {
         // 找到最近的怪物

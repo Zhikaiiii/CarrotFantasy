@@ -1,0 +1,52 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class java.awt.FlowLayout ) {
+			"hgap": -30
+		} ) {
+			name: "this"
+			"undecorated": true
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+				"hgap": 80
+				"vgap": 1
+				"alignment": 0
+			} ) {
+				name: "panelMenu"
+				"preferredSize": new java.awt.Dimension( 442, 280 )
+				"opaque": false
+				auxiliary() {
+					"JavaCodeGenerator.className": "DialogPanel"
+				}
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "buttonResume"
+					"preferredSize": new java.awt.Dimension( 250, 84 )
+					"contentAreaFilled": false
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"iconTextGap": 0
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "buttonResumeActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "buttonRestart"
+					"preferredSize": new java.awt.Dimension( 250, 84 )
+					"contentAreaFilled": false
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"iconTextGap": 0
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "buttonRestartActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "buttonBack"
+					"preferredSize": new java.awt.Dimension( 250, 84 )
+					"contentAreaFilled": false
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"iconTextGap": 0
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "buttonBackActionPerformed", true ) )
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 355, 260 )
+			"size": new java.awt.Dimension( 440, 360 )
+		} )
+	}
+}

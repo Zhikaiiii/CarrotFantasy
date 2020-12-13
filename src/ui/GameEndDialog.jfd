@@ -1,0 +1,51 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JDialog", new FormLayoutManager( class java.awt.FlowLayout ) {
+			"vgap": 0
+			"hgap": 0
+		} ) {
+			name: "this"
+			"undecorated": true
+			"minimumSize": new java.awt.Dimension( 400, 300 )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+				"vgap": 70
+				"hgap": 15
+			} ) {
+				name: "panelDialog"
+				"minimumSize": new java.awt.Dimension( 400, 270 )
+				"preferredSize": new java.awt.Dimension( 400, 270 )
+				"opaque": false
+				auxiliary() {
+					"JavaCodeGenerator.className": "DialogPanel"
+					"JavaCodeGenerator.variableName": "panelDialog"
+				}
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "label1"
+					"preferredSize": new java.awt.Dimension( 300, 30 )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "buttonExit"
+					"preferredSize": new java.awt.Dimension( 120, 40 )
+					"contentAreaFilled": false
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"iconTextGap": 0
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "buttonExitActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "buttonRestart"
+					"preferredSize": new java.awt.Dimension( 120, 40 )
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"contentAreaFilled": false
+					"iconTextGap": 0
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "buttonRestartActionPerformed", true ) )
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 410, 230 )
+			"size": new java.awt.Dimension( 400, 300 )
+		} )
+	}
+}

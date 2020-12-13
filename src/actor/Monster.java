@@ -14,7 +14,7 @@ public class Monster extends Actor{
         super(row, column, x, y, hp);
         this.speed = speed;
         this.position = 0;
-        this.money = 10;
+        this.money = 20;
     }
 
     public int getSpeed(){

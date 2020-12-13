@@ -5,7 +5,7 @@
 package ui;
 
 import control.Controller;
-
+import control.TowerType;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -17,26 +17,37 @@ import javax.swing.*;
 public class MainWindow extends JPanel {
     public MainWindow() {
         initComponents();
-
         backgroundMenuImg = (new ImageIcon(getClass().getResource("/resources/menuBackground.png"))).getImage();
         backgroundMapImg = (new ImageIcon(getClass().getResource("/resources/mapBackground.png"))).getImage();
-//        backgroundTowerImg = (new ImageIcon(getClass().getResource("/resources/towerBackground.png"))).getImage();
-        labelSelectImage = (new ImageIcon(getClass().getResource("/resources/addTower.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
-        buttonBottleImage = (new ImageIcon(getClass().getResource("/resources/bottleDark.png"))).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
-        buttonSunflowerImage = (new ImageIcon(getClass().getResource("/resources/sunflowerDark.png"))).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
-        buttonBottleEnableImage = (new ImageIcon(getClass().getResource("/resources/bottle.png"))).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
-        buttonSunflowerEnableImage = (new ImageIcon(getClass().getResource("/resources/sunflower.png"))).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
+
+        Image labelSelectImage = (new ImageIcon(getClass().getResource("/resources/addTower.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+        Image labelCarrotImage = (new ImageIcon(getClass().getResource("/resources/carrot.png"))).getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT);
+
+        Image buttonBottleImage = (new ImageIcon(getClass().getResource("/resources/bottleDark.png"))).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
+        Image buttonSunflowerImage = (new ImageIcon(getClass().getResource("/resources/sunflowerDark.png"))).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
+        Image buttonBottleEnableImage = (new ImageIcon(getClass().getResource("/resources/bottle.png"))).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
+        Image buttonSunflowerEnableImage = (new ImageIcon(getClass().getResource("/resources/sunflower.png"))).getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT);
+
+        buttonPauseImage = (new ImageIcon(getClass().getResource("/resources/buttonPause.png"))).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
+        buttonPauseImage2 = (new ImageIcon(getClass().getResource("/resources/buttonPause2.png"))).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
+
+        Image buttonMenuImage = (new ImageIcon(getClass().getResource("/resources/buttonMenu.png"))).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
+
 
         panelMap.setBounds(panelMenu.getX(), panelMenu.getY() + panelMenu.getHeight(), 880, 480);
-        labelSelect = new JLabel();
-        labelSelect.setBounds(0, 0, 80, 80);
+
         labelSelect.setIcon(new ImageIcon(labelSelectImage));
-        labelSelect.setVisible(false);
+        labelCarrot.setIcon(new ImageIcon(labelCarrotImage));
+        panelMap.add(labelSelect);
+
         buttonBottle.setDisabledIcon(new ImageIcon(buttonBottleImage));
         buttonBottle.setIcon(new ImageIcon(buttonBottleEnableImage));
         buttonSunflower.setDisabledIcon(new ImageIcon(buttonSunflowerImage));
         buttonSunflower.setIcon(new ImageIcon(buttonSunflowerEnableImage));
-        panelMap.add(labelSelect);
+
+        buttonPause.setIcon(new ImageIcon(buttonPauseImage));
+        buttonMenu.setIcon(new ImageIcon(buttonMenuImage));
+
     }
 
     private void panelMapMouseClicked(MouseEvent e) {
@@ -49,7 +60,7 @@ public class MainWindow extends JPanel {
             int row = y / 80;
             int column = x / 80;
             // 可以放置防御塔
-            if(Controller.isAvailable(row, column)){
+            if(Controller.isPositionAvailable(row, column)){
                 // 取消选择
                 if(labelSelect.isVisible() && labelSelect.getX() == column*80 && labelSelect.getY() == row*80){
                     labelSelect.setVisible(false);
@@ -59,8 +70,8 @@ public class MainWindow extends JPanel {
                 else{
                     labelSelect.setLocation(column*80, row*80);
                     labelSelect.setVisible(true);
-                    buttonBottle.setEnabled(true);
-                    buttonSunflower.setEnabled(true);
+                    buttonBottle.setEnabled(Controller.isTowerAvailable(TowerType.BOTTLE));
+                    buttonSunflower.setEnabled(Controller.isTowerAvailable(TowerType.SUNFLOWER));
                 }
             }
             else{
@@ -93,11 +104,39 @@ public class MainWindow extends JPanel {
 
     }
 
+    private void buttonPauseActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        Controller.pause();
+        if(Controller.isGamePause()){
+            buttonPause.setIcon(new ImageIcon(buttonPauseImage2));
+        }
+        else{
+            buttonPause.setIcon(new ImageIcon(buttonPauseImage));
+        }
+
+    }
+
+    private void buttonMenuActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        GameMenuDialog gameMenuDialog = new GameMenuDialog(Controller.f);
+        Controller.pause();
+        gameMenuDialog.setVisible(true);
+    }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - unknown
         panelMenu = new JPanel();
+        labelMoney = new JLabel();
+        labelWave = new JLabel();
+        panelButton = new JPanel();
+        buttonPause = new JButton();
+        buttonMenu = new JButton();
         panelMap = new JPanel();
+        panelCarrot = new JPanel();
+        progressBarCarrot = new JProgressBar();
+        labelCarrot = new JLabel();
+        labelSelect = new JLabel();
         panelTower = new JPanel();
         buttonBottle = new JButton();
         buttonSunflower = new JButton();
@@ -105,20 +144,60 @@ public class MainWindow extends JPanel {
 
         //======== this ========
         setPreferredSize(new Dimension(880, 620));
-        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax
-        . swing. border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmDes\u0069gner \u0045valua\u0074ion", javax. swing
-        . border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .
-        Font ("D\u0069alog" ,java .awt .Font .BOLD ,12 ), java. awt. Color. red
-        ) , getBorder( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override
-        public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062order" .equals (e .getPropertyName (
-        ) )) throw new RuntimeException( ); }} );
+        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing.
+        border. EmptyBorder( 0, 0, 0, 0) , "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn", javax. swing. border. TitledBorder. CENTER
+        , javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .awt .Font
+        .BOLD ,12 ), java. awt. Color. red) , getBorder( )) );  addPropertyChangeListener (
+        new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e) {if ("\u0062ord\u0065r"
+        .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
 
         //======== panelMenu ========
         {
             panelMenu.setOpaque(false);
             panelMenu.setPreferredSize(new Dimension(880, 60));
-            panelMenu.setLayout(new FlowLayout());
+            panelMenu.setLayout(new GridLayout(1, 3, 100, 10));
+
+            //---- labelMoney ----
+            labelMoney.setHorizontalAlignment(SwingConstants.CENTER);
+            labelMoney.setText("100");
+            labelMoney.setForeground(Color.white);
+            labelMoney.setFont(new Font("\u65b9\u6b63\u8212\u4f53", Font.BOLD, 24));
+            labelMoney.setHorizontalTextPosition(SwingConstants.CENTER);
+            labelMoney.setAlignmentX(0.5F);
+            panelMenu.add(labelMoney);
+
+            //---- labelWave ----
+            labelWave.setText("01\u6ce2/10\u6ce2\u602a\u7269");
+            labelWave.setFont(new Font("\u65b9\u6b63\u8212\u4f53", Font.BOLD, 24));
+            labelWave.setForeground(Color.white);
+            labelWave.setHorizontalTextPosition(SwingConstants.CENTER);
+            labelWave.setAlignmentX(0.5F);
+            labelWave.setHorizontalAlignment(SwingConstants.CENTER);
+            panelMenu.add(labelWave);
+
+            //======== panelButton ========
+            {
+                panelButton.setOpaque(false);
+                panelButton.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
+
+                //---- buttonPause ----
+                buttonPause.setIconTextGap(0);
+                buttonPause.setBorder(null);
+                buttonPause.setContentAreaFilled(false);
+                buttonPause.setPreferredSize(new Dimension(40, 40));
+                buttonPause.addActionListener(e -> buttonPauseActionPerformed(e));
+                panelButton.add(buttonPause);
+
+                //---- buttonMenu ----
+                buttonMenu.setIconTextGap(0);
+                buttonMenu.setBorder(null);
+                buttonMenu.setContentAreaFilled(false);
+                buttonMenu.setPreferredSize(new Dimension(40, 40));
+                buttonMenu.addActionListener(e -> buttonMenuActionPerformed(e));
+                panelButton.add(buttonMenu);
+            }
+            panelMenu.add(panelButton);
         }
         add(panelMenu);
 
@@ -134,6 +213,38 @@ public class MainWindow extends JPanel {
                 }
             });
             panelMap.setLayout(null);
+
+            //======== panelCarrot ========
+            {
+                panelCarrot.setPreferredSize(new Dimension(80, 80));
+                panelCarrot.setOpaque(false);
+                panelCarrot.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+
+                //---- progressBarCarrot ----
+                progressBarCarrot.setPreferredSize(new Dimension(80, 10));
+                progressBarCarrot.setMaximum(10);
+                progressBarCarrot.setForeground(Color.green);
+                progressBarCarrot.setValue(10);
+                panelCarrot.add(progressBarCarrot);
+
+                //---- labelCarrot ----
+                labelCarrot.setAlignmentX(0.5F);
+                labelCarrot.setIconTextGap(0);
+                labelCarrot.setBorder(null);
+                labelCarrot.setPreferredSize(new Dimension(70, 70));
+                panelCarrot.add(labelCarrot);
+            }
+            panelMap.add(panelCarrot);
+            panelCarrot.setBounds(new Rectangle(new Point(800, 160), panelCarrot.getPreferredSize()));
+
+            //---- labelSelect ----
+            labelSelect.setAlignmentX(0.5F);
+            labelSelect.setIconTextGap(0);
+            labelSelect.setBorder(null);
+            labelSelect.setPreferredSize(new Dimension(80, 80));
+            labelSelect.setVisible(false);
+            panelMap.add(labelSelect);
+            labelSelect.setBounds(0, 0, 80, 80);
         }
         add(panelMap);
 
@@ -177,6 +288,7 @@ public class MainWindow extends JPanel {
         super.paintComponent(g);
         g.drawImage(backgroundMenuImg, panelMenu.getX(), panelMenu.getY(), panelMenu.getWidth(), panelMenu.getHeight(), this);
         g.drawImage(backgroundMapImg, panelMap.getX(), panelMap.getY(), panelMap.getWidth(), panelMap.getHeight(), this);
+//        g.drawImage(menuWaveImg, panelWave.getX(), panelWave.getY(), panelWave.getWidth(), panelWave.getHeight(), this);
 //        g.drawImage(backgroundTowerImg, panelTower.getX(), panelTower.getY(), panelTower.getWidth(), panelTower.getHeight(), this);
     }
 
@@ -245,21 +357,26 @@ public class MainWindow extends JPanel {
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - unknown
     public JPanel panelMenu;
+    public JLabel labelMoney;
+    public JLabel labelWave;
+    public JPanel panelButton;
+    private JButton buttonPause;
+    private JButton buttonMenu;
     public JPanel panelMap;
-    private JPanel panelTower;
+    public JPanel panelCarrot;
+    public JProgressBar progressBarCarrot;
+    public JLabel labelCarrot;
+    public JLabel labelSelect;
+    public JPanel panelTower;
     private JButton buttonBottle;
     private JButton buttonSunflower;
     private JButton buttonDelete;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
-    private Image backgroundMenuImg;
-    private Image backgroundMapImg;
+    private final Image backgroundMenuImg;
+    private final Image backgroundMapImg;
 
-    private Image labelSelectImage;
-    private Image buttonBottleImage;
-    private Image buttonSunflowerImage;
-    private Image buttonBottleEnableImage;
-    private Image buttonSunflowerEnableImage;
+    private Image buttonPauseImage;
+    private Image buttonPauseImage2;
 
-    private JLabel labelSelect;
     private ArrayList<JButton> availableTowerButton;
 }
