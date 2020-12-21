@@ -46,35 +46,30 @@ public class GameMenuDialog extends JDialog {
         private DialogPanel() {
             initComponents();
             backgroundGameMenu = (new ImageIcon(getClass().getResource("/resources/menuDialogBackground.png"))).getImage();
-
-            buttonResumeImage = (new ImageIcon(getClass().getResource("/resources/buttonResume.png"))).getImage();
-            buttonRestartImage = (new ImageIcon(getClass().getResource("/resources/buttonRestart.png"))).getImage();
-            buttonBackImage = (new ImageIcon(getClass().getResource("/resources/buttonBack.png"))).getImage();
-
         }
 
         private void buttonResumeActionPerformed(ActionEvent e) {
             // TODO add your code here
             Controller.pause();
+            Controller.w.buttonPause.setEnabled(true);
+            Controller.w.buttonMenu.setEnabled(true);
             JDialog d = (JDialog)this.getTopLevelAncestor();
             d.dispose();
         }
 
         private void buttonRestartActionPerformed(ActionEvent e) {
             // TODO add your code here
-            Controller.w = new MainWindow();
-            Controller.w.setVisible(true);
-            Controller.f.dispose();
-            Controller.f = new JFrame();
-            Controller.f.setSize(900, 700);
-            Controller.f.add(Controller.w);
-            Controller.f.setVisible(true);
-            Controller.initialize();
-            Controller.run();
+            // 让上一次游戏的线程退出
+            Controller.gameEndFlag = true;
+            Controller.gamePauseFlag = false;
+            // 重新初始化窗口
+            Controller.start();
         }
 
         private void buttonBackActionPerformed(ActionEvent e) {
             // TODO add your code here
+            Controller.gameEndFlag = true;
+            Controller.gamePauseFlag = false;
             Controller.f.dispose();
             Controller.f = new JFrame();
             StartWindow p = new StartWindow();
@@ -93,13 +88,13 @@ public class GameMenuDialog extends JDialog {
             //======== this ========
             setPreferredSize(new Dimension(442, 280));
             setOpaque(false);
-            setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing
-            . border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JFor\u006dDesi\u0067ner \u0045valu\u0061tion" , javax. swing .border . TitledBorder
-            . CENTER ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .Font ( "Dia\u006cog", java .
-            awt . Font. BOLD ,12 ) ,java . awt. Color .red ) , getBorder () ) )
-            ;  addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e
-            ) { if( "bord\u0065r" .equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } )
-            ;
+            setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax.
+            swing. border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border
+            . TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog"
+            ,java .awt .Font .BOLD ,12 ), java. awt. Color. red) , getBorder
+            ( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java
+            .beans .PropertyChangeEvent e) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException
+            ( ); }} );
             setLayout(new FlowLayout(FlowLayout.LEFT, 80, 1));
 
             //---- buttonResume ----
@@ -132,9 +127,6 @@ public class GameMenuDialog extends JDialog {
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
             g.drawImage(backgroundGameMenu, 0, 0, this.getWidth(), this.getHeight(), this);
-            g.drawImage(buttonResumeImage, buttonResume.getX(), buttonResume.getY(), buttonResume.getWidth(), buttonResume.getHeight(), this);
-            g.drawImage(buttonRestartImage, buttonRestart.getX(), buttonRestart.getY(), buttonRestart.getWidth(), buttonRestart.getHeight(), this);
-            g.drawImage(buttonBackImage, buttonBack.getX(), buttonBack.getY(), buttonBack.getWidth(), buttonBack.getHeight(), this);
         }
 
         // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables

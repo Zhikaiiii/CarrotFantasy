@@ -1,12 +1,18 @@
 package actor;
 
+import control.TowerType;
+
 public abstract class Tower extends Actor {
     // 攻击力
     protected int attackPower;
     protected int attackRange;
-    protected double attackInterval;
+
     // 冷却时间
+    protected int attackInterval;
     protected int count;
+
+    protected TowerType type;
+
 
     Tower(int row, int column, int x, int y) {
         super(row, column, x, y);
@@ -18,8 +24,11 @@ public abstract class Tower extends Actor {
     public int getAttackRange(){
         return attackRange;
     }
-    public double getAttackInterval(){
+    public int getAttackInterval(){
         return attackInterval;
+    }
+    public TowerType getTowerType() {
+        return type;
     }
 
     public int getCount(){
@@ -29,4 +38,5 @@ public abstract class Tower extends Actor {
         this.count = count;
     }
     public abstract void attack();
+
 }

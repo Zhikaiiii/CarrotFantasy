@@ -57,6 +57,15 @@ public class GameEndDialog extends JDialog {
             backgroundGameLost = (new ImageIcon(getClass().getResource("/resources/loseBackground.png"))).getImage();
             buttonRestartImage = (new ImageIcon(getClass().getResource("/resources/buttonRestart.png"))).getImage();
             buttonBackImage = (new ImageIcon(getClass().getResource("/resources/buttonBack.png"))).getImage();
+
+            String text = "";
+            if(Controller.getCurrWave() < 10){
+                text = "0 " + Controller.getCurrWave()+ " " + Controller.getNumWave();
+            }
+            else{
+                text = Controller.getCurrWave()/10 + " " + Controller.getCurrWave()%10 + " " + Controller.getNumWave();
+            }
+            labelInfo.setText(text);
         }
 
         private void buttonExitActionPerformed(ActionEvent e) {
@@ -71,21 +80,15 @@ public class GameEndDialog extends JDialog {
 
         private void buttonRestartActionPerformed(ActionEvent e) {
             // TODO add your code here
-            Controller.w = new MainWindow();
-            Controller.w.setVisible(true);
-            Controller.f.dispose();
-            Controller.f = new JFrame();
-            Controller.f.setSize(900, 700);
-            Controller.f.add(Controller.w);
-            Controller.f.setVisible(true);
-            Controller.initialize();
-            Controller.run();
+            Controller.gameEndFlag = true;
+            Controller.gamePauseFlag = false;
+            Controller.start();
         }
 
         private void initComponents() {
             // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
             // Generated using JFormDesigner Evaluation license - unknown
-            label1 = new JLabel();
+            labelInfo = new JLabel();
             buttonExit = new JButton();
             buttonRestart = new JButton();
 
@@ -93,17 +96,22 @@ public class GameEndDialog extends JDialog {
             setMinimumSize(new Dimension(400, 270));
             setPreferredSize(new Dimension(400, 270));
             setOpaque(false);
-            setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing. border .
-            EmptyBorder ( 0, 0 ,0 , 0) ,  "JFor\u006dDesi\u0067ner \u0045valu\u0061tion" , javax. swing .border . TitledBorder. CENTER ,javax . swing
-            . border .TitledBorder . BOTTOM, new java. awt .Font ( "Dia\u006cog", java .awt . Font. BOLD ,12 ) ,
-            java . awt. Color .red ) , getBorder () ) );  addPropertyChangeListener( new java. beans .PropertyChangeListener ( )
-            { @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "bord\u0065r" .equals ( e. getPropertyName () ) )
-            throw new RuntimeException( ) ;} } );
-            setLayout(new FlowLayout(FlowLayout.CENTER, 15, 70));
+            setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax .
+            swing. border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JF\u006frmD\u0065sig\u006eer \u0045val\u0075ati\u006fn" , javax. swing .border
+            . TitledBorder. CENTER ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .Font ( "Dia\u006cog"
+            , java .awt . Font. BOLD ,12 ) ,java . awt. Color .red ) , getBorder
+            () ) );  addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java
+            . beans. PropertyChangeEvent e) { if( "\u0062ord\u0065r" .equals ( e. getPropertyName () ) )throw new RuntimeException
+            ( ) ;} } );
+            setLayout(null);
 
-            //---- label1 ----
-            label1.setPreferredSize(new Dimension(300, 30));
-            add(label1);
+            //---- labelInfo ----
+            labelInfo.setPreferredSize(new Dimension(300, 30));
+            labelInfo.setHorizontalAlignment(SwingConstants.CENTER);
+            labelInfo.setForeground(Color.white);
+            labelInfo.setFont(new Font("\u5e7c\u5706", Font.BOLD, 20));
+            add(labelInfo);
+            labelInfo.setBounds(68, 85, 215, labelInfo.getPreferredSize().height);
 
             //---- buttonExit ----
             buttonExit.setPreferredSize(new Dimension(120, 40));
@@ -112,6 +120,7 @@ public class GameEndDialog extends JDialog {
             buttonExit.setIconTextGap(0);
             buttonExit.addActionListener(e -> buttonExitActionPerformed(e));
             add(buttonExit);
+            buttonExit.setBounds(new Rectangle(new Point(72, 170), buttonExit.getPreferredSize()));
 
             //---- buttonRestart ----
             buttonRestart.setPreferredSize(new Dimension(120, 40));
@@ -120,6 +129,22 @@ public class GameEndDialog extends JDialog {
             buttonRestart.setIconTextGap(0);
             buttonRestart.addActionListener(e -> buttonRestartActionPerformed(e));
             add(buttonRestart);
+            buttonRestart.setBounds(new Rectangle(new Point(207, 170), buttonRestart.getPreferredSize()));
+
+            {
+                // compute preferred size
+                Dimension preferredSize = new Dimension();
+                for(int i = 0; i < getComponentCount(); i++) {
+                    Rectangle bounds = getComponent(i).getBounds();
+                    preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
+                    preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
+                }
+                Insets insets = getInsets();
+                preferredSize.width += insets.right;
+                preferredSize.height += insets.bottom;
+                setMinimumSize(preferredSize);
+                setPreferredSize(preferredSize);
+            }
             // JFormDesigner - End of component initialization  //GEN-END:initComponents
         }
         // 重绘背景图
@@ -136,7 +161,7 @@ public class GameEndDialog extends JDialog {
         }
         // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
         // Generated using JFormDesigner Evaluation license - unknown
-        private JLabel label1;
+        private JLabel labelInfo;
         private JButton buttonExit;
         private JButton buttonRestart;
         // JFormDesigner - End of variables declaration  //GEN-END:variables

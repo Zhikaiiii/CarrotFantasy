@@ -1,6 +1,7 @@
 package actor;
 
 import control.Controller;
+import control.TowerType;
 
 // 子弹类
 public class Bullet extends Actor{
@@ -13,8 +14,9 @@ public class Bullet extends Actor{
     protected boolean isCollide;
     protected int threshold;
     protected Monster targetMonster;
+    protected TowerType parent;
 
-    Bullet(int row, int column, int startX, int startY, int endX, int endY, int attackPower) {
+    Bullet(int row, int column, int startX, int startY, int endX, int endY, int attackPower, TowerType parent) {
         super(row, column, startX, startY);
         this.startX = startX;
         this.startY = startY;
@@ -23,6 +25,7 @@ public class Bullet extends Actor{
         this.attackPower = attackPower;
         this.threshold = 20;
         this.isCollide = false;
+        this.parent = parent;
     }
 
     public int getStartX(){
@@ -37,9 +40,15 @@ public class Bullet extends Actor{
     public int getEndY(){
         return endY;
     }
+    public TowerType getParentType(){
+        return parent;
+    }
     // 判断是否碰撞
     public boolean getIsCollide(){
         return isCollide;
+    }
+    public Monster getTargetMonster(){
+        return targetMonster;
     }
 
     public void setTargetMonster(Monster m){
@@ -51,49 +60,27 @@ public class Bullet extends Actor{
         double angle = Math.atan2(endY - y, endX - x);
         // x为长边
         if((Math.abs(angle - Math.PI) < Math.PI/4) || (Math.abs(angle + Math.PI) < Math.PI/4) || (Math.abs(angle) < Math.PI/4)){
-            // 角度很大时
+            // 角度很小时
             if(Math.abs(angle - Math.PI) < Math.PI/100 || (Math.abs(angle + Math.PI) < Math.PI/100) || (Math.abs(angle) < Math.PI/100)){
                 x += getDelta(x, endX);
             }
             else {
                 y += getDelta(y, endY);
-                x += (int) Math.tan(angle) * getDelta(y, endY);
+                x += (int) ( 1 / Math.tan(angle) * getDelta(y, endY));
             }
         }
         else{
             // 角度很大时
-            if(Math.abs(angle - Math.PI/2) < Math.PI/100 || (Math.abs(angle + Math.PI/2) < Math.PI/100)){
+            if(Math.abs(angle - Math.PI/2) < Math.PI/100 || Math.abs(angle + Math.PI/2) < Math.PI/100){
                 y += getDelta(y, endY);
             }
             else{
                 x += getDelta(x, endX);
-                y += (int) Math.tan(angle) * getDelta(x, endX);
+                y += (int) ( Math.tan(angle) * getDelta(x, endX));
             }
         }
         int dist = (int)Math.sqrt(Math.pow(endX - x,2) + Math.pow(endY - y,2));
-//        double angle = Math.atan2(targetMonster.getY() - y, targetMonster.getX() - x);
-//        // x为长边
-//        if((Math.abs(angle - Math.PI) < Math.PI/4) || (Math.abs(angle + Math.PI) < Math.PI/4) || (Math.abs(angle) < Math.PI/4)){
-//            // 角度很大时
-//            if(Math.abs(angle - Math.PI) < Math.PI/100 || (Math.abs(angle + Math.PI) < Math.PI/100) || (Math.abs(angle) < Math.PI/100)){
-//                x += getDelta(x, targetMonster.getX());
-//            }
-//            else {
-//                y += getDelta(y, targetMonster.getY());
-//                x += (int) Math.tan(angle) * getDelta(y, targetMonster.getY());
-//            }
-//        }
-//        else{
-//            // 角度很大时
-//            if(Math.abs(angle - Math.PI/2) < Math.PI/100 || (Math.abs(angle + Math.PI/2) < Math.PI/100)){
-//                y += getDelta(y, targetMonster.getY());
-//            }
-//            else{
-//                x += getDelta(x, targetMonster.getX());
-//                y += (int) Math.tan(angle) * getDelta(x, endX);
-//            }
-//        }
-//        int dist = (int)Math.sqrt(Math.pow(targetMonster.getX() - x,2) + Math.pow(targetMonster.getY() - y,2));
+
         if(dist < threshold){
             isCollide = true;
             targetMonster.setHp(targetMonster.getHp() - attackPower);
@@ -106,21 +93,6 @@ public class Bullet extends Actor{
 //        System.out.println(dist);
 //        System.out.println("------");
     }
-
-//    @Override
-//    public void run() {
-//        while(!isCollide){
-//            move();
-//
-//            try {
-//                Thread.sleep(5);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        // 更新怪物血量
-//        targetMonster.setHp(targetMonster.getHp() - attackPower);
-//    }
 
     private int getDelta(int start, int end){
         return start > end? -1 : 1;

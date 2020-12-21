@@ -10,10 +10,7 @@ new FormModel {
 			name: "this"
 			"undecorated": true
 			"minimumSize": new java.awt.Dimension( 400, 300 )
-			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
-				"vgap": 70
-				"hgap": 15
-			} ) {
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
 				name: "panelDialog"
 				"minimumSize": new java.awt.Dimension( 400, 270 )
 				"preferredSize": new java.awt.Dimension( 400, 270 )
@@ -23,8 +20,15 @@ new FormModel {
 					"JavaCodeGenerator.variableName": "panelDialog"
 				}
 				add( new FormComponent( "javax.swing.JLabel" ) {
-					name: "label1"
+					name: "labelInfo"
 					"preferredSize": new java.awt.Dimension( 300, 30 )
+					"horizontalAlignment": 0
+					"foreground": sfield java.awt.Color white
+					"font": new java.awt.Font( "幼圆", 1, 20 )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 68
+					"y": 85
+					"width": 215
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "buttonExit"
@@ -33,6 +37,9 @@ new FormModel {
 					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					"iconTextGap": 0
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "buttonExitActionPerformed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 72
+					"y": 170
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "buttonRestart"
@@ -41,10 +48,13 @@ new FormModel {
 					"contentAreaFilled": false
 					"iconTextGap": 0
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "buttonRestartActionPerformed", true ) )
+				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+					"x": 207
+					"y": 170
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 410, 230 )
+			"location": new java.awt.Point( 65, 40 )
 			"size": new java.awt.Dimension( 400, 300 )
 		} )
 	}

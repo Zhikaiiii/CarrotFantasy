@@ -1,20 +1,28 @@
 package actor;
 
 import control.Controller;
+import control.TowerType;
+import ui.RotateJLabel;
 
 public class Bottle extends Tower{
-    private static final int cost = 100;
+    private static final int buyPrice = 100;
+    private static final int sellPrice = 80;
     public Bottle(int row, int column, int x, int y) {
         super(row, column, x, y);
         this.attackPower = 20;
         this.attackRange = 1;
         this.attackInterval = 20;
-        this.count = 3;
+        this.count = 0;
+        this.type = TowerType.BOTTLE;
     }
 
-    public static int getCost(){
-        return cost;
+    public static int getBuyPrice(){
+        return buyPrice;
     }
+    public static int getSellPrice(){
+        return sellPrice;
+    }
+
     @Override
     public void attack() {
         // 找到最近的怪物
@@ -38,18 +46,18 @@ public class Bottle extends Tower{
                 int startY = y;
                 int endX = nearestMonster.getX();
                 int endY = nearestMonster.getY();
-//                System.out.println(startX);
-//                System.out.println(startY);
-//                System.out.println(endX);
-//                System.out.println(endY);
-                Bullet b = new Bullet(row, column, startX, startY, endX, endY, attackPower);
+                // 瓶子转向
+                RotateJLabel l = Controller.allTowerLabels.get(Controller.allTower.indexOf(this));
+                double angle = Math.atan2(endY - y, endX - x);
+                Controller.w.rotateTower(l, angle);
+
+                // 生成新子弹
+                Bullet b = new Bullet(row, column, startX, startY, endX, endY, attackPower, type);
                 b.setTargetMonster(nearestMonster);
                 Controller.allBulletLabels.add(Controller.w.addBullet(startX, startY));
 //            Thread t = new Thread(b);
                 Controller.allBullet.add(b);
             }
         }
-
-
     }
 }

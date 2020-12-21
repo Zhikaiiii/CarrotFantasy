@@ -1,0 +1,72 @@
+JFDML JFormDesigner: "7.0.2.6.321" Java: "11.0.8" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+			"vgap": 30
+		} ) {
+			name: "this"
+			"preferredSize": new java.awt.Dimension( 650, 450 )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+				"hgap": 10
+			} ) {
+				name: "panelLevel"
+				"preferredSize": new java.awt.Dimension( 630, 200 )
+				"opaque": false
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "buttonLeft"
+					"contentAreaFilled": false
+					"iconTextGap": 0
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"preferredSize": &Dimension0 new java.awt.Dimension( 40, 40 )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "buttonLeftActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "labelLevel"
+					"text": "简单"
+					"preferredSize": new java.awt.Dimension( 250, 200 )
+					"font": new java.awt.Font( "幼圆", 1, 20 )
+					"horizontalAlignment": 0
+					"horizontalTextPosition": 0
+					"verticalTextPosition": 3
+					"foreground": sfield java.awt.Color white
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "buttonRight"
+					"contentAreaFilled": false
+					"iconTextGap": 0
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"preferredSize": #Dimension0
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "buttonRightActionPerformed", true ) )
+				} )
+			} )
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
+				"hgap": 20
+			} ) {
+				name: "panelButton"
+				"preferredSize": new java.awt.Dimension( 630, 100 )
+				"opaque": false
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "buttonBack"
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"iconTextGap": 0
+					"contentAreaFilled": false
+					"preferredSize": new java.awt.Dimension( 120, 45 )
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "buttonBackActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "buttonStart"
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"iconTextGap": 0
+					"contentAreaFilled": false
+					"preferredSize": new java.awt.Dimension( 120, 45 )
+					addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "buttonStartMouseClicked", true ) )
+				} )
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 130, 40 )
+			"size": new java.awt.Dimension( 545, 360 )
+		} )
+	}
+}

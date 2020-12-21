@@ -5,10 +5,9 @@ new FormModel {
 	root: new FormRoot {
 		add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
 			"hgap": 0
-			"vgap": 0
 		} ) {
 			name: "this"
-			"preferredSize": new java.awt.Dimension( 880, 620 )
+			"preferredSize": new java.awt.Dimension( 960, 660 )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
 				"columns": 3
 				"hgap": 100
@@ -16,14 +15,14 @@ new FormModel {
 			} ) {
 				name: "panelMenu"
 				"opaque": false
-				"preferredSize": new java.awt.Dimension( 880, 60 )
+				"preferredSize": new java.awt.Dimension( 960, 60 )
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 1
 				}
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "labelMoney"
 					"horizontalAlignment": 0
-					"text": "100"
+					"text": "500"
 					"foreground": sfield java.awt.Color white
 					"font": new java.awt.Font( "方正舒体", 1, 24 )
 					"horizontalTextPosition": 0
@@ -59,6 +58,9 @@ new FormModel {
 						"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						"contentAreaFilled": false
 						"preferredSize": new java.awt.Dimension( 40, 40 )
+						auxiliary() {
+							"JavaCodeGenerator.variableModifiers": 1
+						}
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "buttonPauseActionPerformed", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JButton" ) {
@@ -67,6 +69,9 @@ new FormModel {
 						"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 						"contentAreaFilled": false
 						"preferredSize": new java.awt.Dimension( 40, 40 )
+						auxiliary() {
+							"JavaCodeGenerator.variableModifiers": 1
+						}
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "buttonMenuActionPerformed", true ) )
 					} )
 				} )
@@ -75,7 +80,7 @@ new FormModel {
 				"autoSize": false
 			} ) {
 				name: "panelMap"
-				"preferredSize": new java.awt.Dimension( 880, 480 )
+				"preferredSize": new java.awt.Dimension( 960, 480 )
 				"opaque": false
 				"minimumSize": new java.awt.Dimension( 880, 480 )
 				auxiliary() {
@@ -92,29 +97,30 @@ new FormModel {
 					auxiliary() {
 						"JavaCodeGenerator.variableModifiers": 1
 					}
-					add( new FormComponent( "javax.swing.JProgressBar" ) {
-						name: "progressBarCarrot"
-						"preferredSize": new java.awt.Dimension( 80, 10 )
-						"maximum": 10
-						"foreground": sfield java.awt.Color green
-						"value": 10
-						auxiliary() {
-							"JavaCodeGenerator.variableModifiers": 1
-						}
-					} )
 					add( new FormComponent( "javax.swing.JLabel" ) {
 						name: "labelCarrot"
 						"alignmentX": 0.5f
 						"iconTextGap": 0
 						"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
-						"preferredSize": new java.awt.Dimension( 70, 70 )
+						"preferredSize": new java.awt.Dimension( 80, 80 )
+						auxiliary() {
+							"JavaCodeGenerator.variableModifiers": 1
+						}
+					} )
+					add( new FormComponent( "javax.swing.JLabel" ) {
+						name: "labelHP"
+						"alignmentX": 0.5f
+						"iconTextGap": 0
+						"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+						"preferredSize": new java.awt.Dimension( 80, 40 )
 						auxiliary() {
 							"JavaCodeGenerator.variableModifiers": 1
 						}
 					} )
 				}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 					"x": 800
-					"y": 160
+					"y": 80
+					"width": 160
 				} )
 				add( new FormComponent( "javax.swing.JLabel" ) {
 					name: "labelSelect"
@@ -134,19 +140,18 @@ new FormModel {
 				} )
 			} )
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) {
-				"alignment": 0
 				"vgap": 0
-				"hgap": 0
+				"hgap": 8
 			} ) {
 				name: "panelTower"
-				"preferredSize": new java.awt.Dimension( 880, 100 )
+				"preferredSize": new java.awt.Dimension( 960, 80 )
 				"opaque": false
 				auxiliary() {
 					"JavaCodeGenerator.variableModifiers": 1
 				}
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "buttonBottle"
-					"preferredSize": &Dimension0 new java.awt.Dimension( 100, 100 )
+					"preferredSize": new java.awt.Dimension( 80, 80 )
 					"contentAreaFilled": false
 					"iconTextGap": 0
 					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
@@ -155,24 +160,26 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "buttonSunflower"
-					"preferredSize": #Dimension0
+					"preferredSize": new java.awt.Dimension( 80, 80 )
 					"contentAreaFilled": false
 					"iconTextGap": 0
 					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					"enabled": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "buttonTowerActionPerformed", true ) )
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "buttonDelete"
-					"preferredSize": #Dimension0
+					"preferredSize": new java.awt.Dimension( 80, 80 )
 					"contentAreaFilled": false
 					"iconTextGap": 0
 					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					"enabled": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "buttonDeleteActionPerformed", true ) )
 				} )
 			} )
 		}, new FormLayoutConstraints( null ) {
-			"location": new java.awt.Point( 255, 25 )
-			"size": new java.awt.Dimension( 880, 640 )
+			"location": new java.awt.Point( 160, 5 )
+			"size": new java.awt.Dimension( 960, 660 )
 		} )
 	}
 }

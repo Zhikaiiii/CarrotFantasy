@@ -24,16 +24,19 @@ public class Level {
                 numWaves = 10;
                 numMonsters = 10;
                 monsterHP = 60;
+                monsterSpeed = 1;
                 break;
             case MEDIUM:
                 numWaves = 15;
                 numMonsters = 15;
                 monsterHP = 80;
+                monsterSpeed = 2;
                 break;
             case DIFFICULTY:
                 numWaves = 15;
                 numMonsters = 20;
                 monsterHP = 100;
+                monsterSpeed = 3;
                 break;
             default:
                 break;
@@ -52,4 +55,3 @@ public class Level {
         return monsterHP;
     }
 }
-enum Difficulty {EASY, MEDIUM, DIFFICULTY}

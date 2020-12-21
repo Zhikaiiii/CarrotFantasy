@@ -21,53 +21,40 @@ public class StartWindow extends JPanel {
 
     private void buttonStartMouseClicked(MouseEvent e) {
         // TODO add your code here
-        Controller.w = new MainWindow();
-        Controller.w.setVisible(true);
+        Controller.start();
+    }
+
+    private void buttonSelectActionPerformed(ActionEvent e) {
+        // TODO add your code here
+        LevelSelectWindow s = new LevelSelectWindow();
+        s.setVisible(true);
         Controller.f.dispose();
         Controller.f = new JFrame();
-        Controller.f.setSize(900, 700);
-        Controller.f.add(Controller.w);
+        Controller.f.setSize(540, 380);
+        Controller.f.add(s);
         Controller.f.setVisible(true);
-        Controller.initialize();
-        Controller.run();
     }
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - unknown
         panelButton = new JPanel();
-        buttonStart = new JButton();
         buttonSelect = new JButton();
 
         //======== this ========
-        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing
-        . border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border. TitledBorder
-        . CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .
-        awt .Font .BOLD ,12 ), java. awt. Color. red) , getBorder( )) )
-        ;  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .beans .PropertyChangeEvent e
-        ) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} )
-        ;
+        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax
+        . swing. border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing
+        . border. TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .
+        Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 ), java. awt. Color. red
+        ) , getBorder( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override
+        public void propertyChange (java .beans .PropertyChangeEvent e) {if ("bord\u0065r" .equals (e .getPropertyName (
+        ) )) throw new RuntimeException( ); }} );
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 200));
 
         //======== panelButton ========
         {
             panelButton.setOpaque(false);
             panelButton.setLayout(new GridLayout(2, 1, 0, 20));
-
-            //---- buttonStart ----
-            buttonStart.setPreferredSize(new Dimension(152, 50));
-            buttonStart.setContentAreaFilled(false);
-            buttonStart.setBorderPainted(false);
-            buttonStart.setBorder(null);
-            buttonStart.setIconTextGap(0);
-            buttonStart.setIcon(new ImageIcon(getClass().getResource("/resources/button_start.png")));
-            buttonStart.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    buttonStartMouseClicked(e);
-                }
-            });
-            panelButton.add(buttonStart);
 
             //---- buttonSelect ----
             buttonSelect.setPreferredSize(new Dimension(152, 50));
@@ -76,6 +63,7 @@ public class StartWindow extends JPanel {
             buttonSelect.setBorderPainted(false);
             buttonSelect.setBorder(null);
             buttonSelect.setIcon(new ImageIcon(getClass().getResource("/resources/button_select.png")));
+            buttonSelect.addActionListener(e -> buttonSelectActionPerformed(e));
             panelButton.add(buttonSelect);
         }
         add(panelButton);
@@ -98,7 +86,6 @@ public class StartWindow extends JPanel {
         // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
         // Generated using JFormDesigner Evaluation license - unknown
         private JPanel panelButton;
-        private JButton buttonStart;
         private JButton buttonSelect;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
     private Image backgroundImg;

@@ -13,8 +13,10 @@ public class Controller {
     private static int currWave;
     private static int currMonster;
     private static int arrivedMonster;
+    public static Difficulty difficulty;
     public static Level level;
     public static Map map;
+    public static Object lock;
 
     public static ArrayList<Monster> allMonster;
     public static ArrayList<Tower> allTower;
@@ -23,15 +25,17 @@ public class Controller {
 
     public static Iterator<Monster> monsterIterator;
     public static Iterator<Bullet> bulletIterator;
+    public static Iterator<Tower> towerIterator;
     public static Iterator<JPanel> monsterPanelIterator;
     public static Iterator<JLabel> bulletLabelIterator;
+    public static Iterator<RotateJLabel> towerLabelIterator;
 
     // ui相关
     public static JFrame f;
     public static MainWindow w;
     public static GameEndDialog d;
     public static ArrayList<JPanel> allMonsterPanels;
-    public static ArrayList<JLabel> allTowerLabels;
+    public static ArrayList<RotateJLabel> allTowerLabels;
     public static ArrayList<JLabel> allBulletLabels;
 
     public static boolean gameEndFlag;
@@ -44,27 +48,28 @@ public class Controller {
     public static void initialize(){
         currWave = 0;
         currMonster = 0;
-        currMoney = new AtomicInteger(100);
+        currMoney = new AtomicInteger(500);
         arrivedMonster = 0;
         gameEndFlag = false;
         gamePauseFlag = false;
-        level = new Level(Difficulty.EASY);
-        map = new Map();
-
+        lock = new Object();
 //        f = new JFrame();
 //        d = new GameEndDialog(f);
+        level = new Level(difficulty);
+        map = new Map(difficulty);
+        w.setLevel(difficulty);
+        // carrot
+        int row = map.getEndRow();
+        int column = map.getEndColumn();
+        int interval = map.getInterval();
+        int y = row*interval;
+        int x = column*interval;
+        carrot = new Carrot(row, column, x, y);
 
         // game element
         allMonster = new ArrayList<Monster>();
         allTower = new ArrayList<Tower>();
         allBullet = new ArrayList<Bullet>();
-        // carrot
-        int row = map.getEndRow();
-        int column = map.getEndColumn();
-        int interval = map.getInterval();
-        int y = row*interval + interval/2;
-        int x = column*interval + interval/2;
-        carrot = new Carrot(row, column, x, y);
 
         // ui
         allMonsterPanels = new ArrayList<>();
@@ -76,6 +81,10 @@ public class Controller {
         String text = w.labelWave.getText();
         text = text.replaceFirst("10", ""+ level.getNumWaves());
         w.labelWave.setText(text);
+    }
+
+    public static void setDifficulty(Difficulty d){
+        difficulty = d;
     }
 
     public static void run(){
@@ -93,15 +102,26 @@ public class Controller {
         t4.start();
     }
 
+    public static void start(){
+        w = new MainWindow();
+        w.setVisible(true);
+        f.dispose();
+        f = new JFrame();
+        f.setSize(980, 680);
+        f.add(Controller.w);
+        f.setVisible(true);
+        initialize();
+        run();
+    }
+
     public static void pause(){
         gamePauseFlag = !gamePauseFlag;
     }
 
     // 添加防御塔
-    public static void addTower(int idx, int column, int row){
+    public static void addTower(TowerType type, int column, int row){
         Tower t = null;
-        JLabel tLabel = null;
-        TowerType type = TowerType.values()[idx];
+        RotateJLabel tLabel = null;
         int interval = map.getInterval();
         int y = row*interval;
         int x = column*interval;
@@ -110,13 +130,13 @@ public class Controller {
             switch (type){
                 case BOTTLE:
                     t = new Bottle(row, column, x, y);
-                    tLabel = w.addTower(x, y, type.ordinal());
-                    currMoney.addAndGet(-Bottle.getCost());
+                    tLabel = w.addTower(x, y, type);
+                    currMoney.addAndGet(-Bottle.getBuyPrice());
                     break;
                 case SUNFLOWER:
                     t = new SunFlower(row, column, x, y);
-                    tLabel = w.addTower(x, y, type.ordinal());
-                    currMoney.addAndGet(-Bottle.getCost());
+                    tLabel = w.addTower(x, y, type);
+                    currMoney.addAndGet(-Bottle.getBuyPrice());
                     break;
                 default:
                     break;
@@ -131,14 +151,40 @@ public class Controller {
             System.out.println("Can not place here!");
         }
     }
+
+    // 删除防御塔
+    public static void removeTower(int x, int y){
+        synchronized (allTower){
+            towerIterator = allTower.iterator();
+            towerLabelIterator = allTowerLabels.iterator();
+            while(towerIterator.hasNext()){
+                Tower t = towerIterator.next();
+                RotateJLabel l = towerLabelIterator.next();
+                if(t.getX() == x && t.getY() == y){
+                    towerIterator.remove();
+                    l.setVisible(false);
+                    w.panelMap.remove(l);
+                    w.repaint();
+                    towerLabelIterator.remove();
+                    switch (t.getTowerType()){
+                        case BOTTLE -> currMoney.addAndGet(Bottle.getSellPrice());
+                        case SUNFLOWER -> currMoney.addAndGet(SunFlower.getSellPrice());
+                    }
+                    map.setMapElement(y/80, x/80, MapElement.EMPTY);
+                    break;
+                }
+            }
+        }
+    }
+
     // 添加下一波怪物
     public static void addWave(){
         // 更新金钱
-        w.labelMoney.setText("" + currMoney.get());
-        w.progressBarCarrot.setValue(carrot.getHp());
+        w.setMoney(currMoney.get());
+        w.setCarrotHP(carrot.getHp());
 
         // 当前一波所有怪物已经生成且被消灭
-        if ((currWave == 0 || (currMonster == level.getNumMonsters() && allMonster.isEmpty())) && currWave <= level.getNumWaves()){
+        if ((currWave == 0 || (currMonster == level.getNumMonsters() && allMonster.isEmpty())) && currWave < level.getNumWaves()){
             currWave += 1;
             String text = w.labelWave.getText();
             if (currWave < 10){
@@ -157,7 +203,7 @@ public class Controller {
 
     }
     // 添加怪物
-    public static void addMonster(){
+    public static void addMonster() throws InterruptedException {
         Random r = new Random();
         while(currMonster < level.getNumMonsters()){
             int row = map.getStartRow();
@@ -172,8 +218,13 @@ public class Controller {
                 allMonsterPanels.add(mPanel);
                 currMonster += 1;
             }
+            if(isGamePause()){
+                synchronized (lock){
+                    lock.wait();
+                }
+            }
             // 怪物的生成间歇为一个随机数
-            int random = r.nextInt(3000);
+            int random = r.nextInt(4000);
             try {
                 Thread.sleep(random);
             } catch (InterruptedException e) {
@@ -205,7 +256,7 @@ public class Controller {
                 p.setValue(m.getHp());
 
                 // 被消灭
-                if(m.getHp() == 0){
+                if(m.getHp() <= 0){
                     monsterIterator.remove();
                     mPanel.setVisible(false);
                     w.panelMap.remove(mPanel);
@@ -220,12 +271,12 @@ public class Controller {
                     m.setPosition(position);
                     m.setRow(map.getRow(position));
                     m.setColumn(map.getColumn(position));
-                    // 到达终点或者被消灭
+                    // 到达终点
                     if(m.isArrived(map.getEndColumn(), map.getEndRow())){
-//                        allMonster.remove(m);
                         carrot.setHp(carrot.getHp() - 1);
                         monsterIterator.remove();
                         mPanel.setVisible(false);
+                        w.carrotAttack();
                         w.panelMap.remove(mPanel);
                         w.repaint();
                         monsterPanelIterator.remove();
@@ -241,7 +292,6 @@ public class Controller {
     public static void allTowerAttack(){
         synchronized (allTower){
             for(Tower t: allTower){
-//                if(currTime % t.getAttackInterval() == 0){
                 if(t.getCount() == t.getAttackInterval()){
                     t.attack();
                     t.setCount(0);
@@ -249,7 +299,6 @@ public class Controller {
                 else {
                     t.setCount(t.getCount() + 1);
                 }
-//                }
             }
         }
     }
@@ -261,13 +310,25 @@ public class Controller {
             while(bulletIterator.hasNext()){
                 Bullet b = bulletIterator.next();
                 JLabel bLabel = bulletLabelIterator.next();
+                // 如果是太阳花
+                if(b.getParentType() == TowerType.SUNFLOWER){
+                    bLabel.setVisible(false);
+//                    w.updateFire(b.getStartX(), b.getStartY(), b.getX(), b.getY());
+                }
                 b.move();
                 bLabel.setLocation(b.getX(), b.getY());
                 w.panelMap.updateUI();
                 if(b.getIsCollide()){
                     bulletIterator.remove();
                     bulletLabelIterator.remove();
-                    bLabel.setVisible(false);
+                    if(b.getParentType() == TowerType.BOTTLE){
+                        bLabel.setVisible(false);
+                    }
+                    // 子弹攻击效果
+                    w.monsterHit(b.getTargetMonster().getX(), b.getTargetMonster().getY(), b.getParentType());
+//                    else if(b.getParentType() == TowerType.SUNFLOWER){
+//                        w.updateFire(b.getStartX(), b.getStartY(), 1000, 1000);
+//                    }
                     w.panelMap.remove(bLabel);
                 }
             }
@@ -287,17 +348,24 @@ public class Controller {
         return gamePauseFlag;
     }
 
-    public static boolean isPositionAvailable(int row, int column){
-        return map.getMapElement(row, column) == MapElement.EMPTY;
+    public static MapElement getMapElement(int row, int column){
+        return map.getMapElement(row, column);
     }
+    public static int getCurrWave(){
+        return currWave;
+    }
+    public static int getNumWave(){
+        return level.getNumWaves();
+    }
+
     public static boolean isTowerAvailable(TowerType type){
 //        TowerType t =
         switch (type){
             case BOTTLE -> {
-                return currMoney.get() >= Bottle.getCost();
+                return currMoney.get() >= Bottle.getBuyPrice();
             }
             case SUNFLOWER -> {
-                return currMoney.get() >= SunFlower.getCost();
+                return currMoney.get() >= SunFlower.getBuyPrice();
             }
             default -> {
                 return false;
@@ -312,16 +380,20 @@ class TowerAttackThread implements Runnable{
     @SuppressWarnings("InfiniteLoopStatement")
     public void run() {
         while(!Controller.isGameEnd()){
-            while(Controller.isGamePause()){
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            if(Controller.isGamePause()){
+                synchronized (Controller.lock){
+                    try {
+                        Controller.lock.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
+                continue;
             }
+//            notify();
             Controller.allTowerAttack();
             try {
-                Thread.sleep(100);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -329,36 +401,24 @@ class TowerAttackThread implements Runnable{
     }
 }
 
-//class TowerAddThread implements Runnable{
-//    protected TowerType type;
-//    protected int column;
-//    protected int row;
-//    TowerAddThread(TowerType type, int column, int row){
-//        this.type = type;
-//        this.column = column;
-//        this.row = row;
-//    }
-//    @Override
-//    public void run() {
-//        Controller.addTower(type, column, row);
-//    }
-//}
 
 class MonsterMoveThread implements Runnable{
     @Override
-    @SuppressWarnings("InfiniteLoopStatement")
     public void run() {
         while(!Controller.isGameEnd()){
-            while(Controller.isGamePause()){
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            if(Controller.isGamePause()){
+                synchronized (Controller.lock){
+                    try {
+                        Controller.lock.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
+                continue;
             }
             Controller.allMonsterMove();
             try {
-                Thread.sleep(1);
+                Thread.sleep(20/Controller.level.getMonsterSpeed());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -369,25 +429,31 @@ class MonsterMoveThread implements Runnable{
 class MonsterAddThread implements Runnable{
     @Override
     public void run() {
-        Controller.addMonster();
+        try {
+            Controller.addMonster();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
 
 class BulletAttackThread implements Runnable{
     @Override
-    @SuppressWarnings("InfiniteLoopStatement")
     public void run() {
         while(!Controller.isGameEnd()){
-            while(Controller.isGamePause()){
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            if(Controller.isGamePause()){
+                synchronized (Controller.lock){
+                    try {
+                        Controller.lock.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
+                continue;
             }
             Controller.allBulletAttack();
             try {
-                Thread.sleep(5);
+                Thread.sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -397,16 +463,19 @@ class BulletAttackThread implements Runnable{
 
 class GameStateJudgeThread implements Runnable{
     @Override
-    @SuppressWarnings("InfiniteLoopStatement")
     public void run() {
         while(true){
-            while(Controller.isGamePause()){
-                try {
-                    Thread.sleep(1);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            synchronized (Controller.lock){
+                if(Controller.isGamePause()){
+                    continue;
+                }
+                else{
+                    Controller.lock.notifyAll();
                 }
             }
+
+
+            // 游戏胜利或者失败
             if(Controller.isGameWin()){
                 Controller.d = new GameEndDialog(Controller.f);
                 Controller.d.setStatus(true);
