@@ -45,7 +45,7 @@ public class GameMenuDialog extends JDialog {
     private class DialogPanel extends JPanel {
         private DialogPanel() {
             initComponents();
-            backgroundGameMenu = (new ImageIcon(getClass().getResource("/resources/menuDialogBackground.png"))).getImage();
+            backgroundGameMenu = (new ImageIcon(getClass().getResource("/resources/Background/menuDialogBackground.png"))).getImage();
         }
 
         private void buttonResumeActionPerformed(ActionEvent e) {

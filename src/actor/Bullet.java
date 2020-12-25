@@ -5,8 +5,7 @@ import control.TowerType;
 
 // 子弹类
 public class Bullet extends Actor{
-    protected int startX;
-    protected int startY;
+
     protected int endX;
     protected int endY;
     protected int attackPower;
@@ -18,8 +17,6 @@ public class Bullet extends Actor{
 
     Bullet(int row, int column, int startX, int startY, int endX, int endY, int attackPower, TowerType parent) {
         super(row, column, startX, startY);
-        this.startX = startX;
-        this.startY = startY;
         this.endX = endX;
         this.endY = endY;
         this.attackPower = attackPower;
@@ -28,12 +25,6 @@ public class Bullet extends Actor{
         this.parent = parent;
     }
 
-    public int getStartX(){
-        return startX;
-    }
-    public int getStartY(){
-        return startY;
-    }
     public int getEndX(){
         return endX;
     }
@@ -56,6 +47,16 @@ public class Bullet extends Actor{
     }
 
     // 子弹移动
+    public void update(){
+        move();
+
+        int dist = (int)Math.sqrt(Math.pow(endX - x,2) + Math.pow(endY - y,2));
+        if(dist < threshold){
+            isCollide = true;
+            targetMonster.setHp(targetMonster.getHp() - attackPower);
+        }
+    }
+
     public void move(){
         double angle = Math.atan2(endY - y, endX - x);
         // x为长边
@@ -79,19 +80,6 @@ public class Bullet extends Actor{
                 y += (int) ( Math.tan(angle) * getDelta(x, endX));
             }
         }
-        int dist = (int)Math.sqrt(Math.pow(endX - x,2) + Math.pow(endY - y,2));
-
-        if(dist < threshold){
-            isCollide = true;
-            targetMonster.setHp(targetMonster.getHp() - attackPower);
-        }
-//        System.out.println(x);
-//        System.out.println(y);
-//        System.out.println(endX);
-//        System.out.println(endY);
-//        System.out.println(angle);
-//        System.out.println(dist);
-//        System.out.println("------");
     }
 
     private int getDelta(int start, int end){

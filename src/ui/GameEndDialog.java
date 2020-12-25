@@ -53,10 +53,10 @@ public class GameEndDialog extends JDialog {
         private DialogPanel() {
             initComponents();
             status = false;
-            backgroundGameWin = (new ImageIcon(getClass().getResource("/resources/winBackground.png"))).getImage();
-            backgroundGameLost = (new ImageIcon(getClass().getResource("/resources/loseBackground.png"))).getImage();
-            buttonRestartImage = (new ImageIcon(getClass().getResource("/resources/buttonRestart.png"))).getImage();
-            buttonBackImage = (new ImageIcon(getClass().getResource("/resources/buttonBack.png"))).getImage();
+            backgroundGameWin = (new ImageIcon(getClass().getResource("/resources/Background/winBackground.png"))).getImage();
+            backgroundGameLost = (new ImageIcon(getClass().getResource("/resources/Background/loseBackground.png"))).getImage();
+            buttonRestartImage = (new ImageIcon(getClass().getResource("/resources/Items/buttonRestart.png"))).getImage();
+            buttonBackImage = (new ImageIcon(getClass().getResource("/resources/Items/buttonBack.png"))).getImage();
 
             String text = "";
             if(Controller.getCurrWave() < 10){

@@ -18,18 +18,18 @@ public class LevelSelectWindow extends JPanel {
     public LevelSelectWindow() {
         initComponents();
         levelImg = new Image[3];
-        levelImg[0] = (new ImageIcon(getClass().getResource("/resources/selectMap1.png"))).getImage().getScaledInstance(250, 170, Image.SCALE_DEFAULT);
-        levelImg[1] = (new ImageIcon(getClass().getResource("/resources/selectMap2.png"))).getImage().getScaledInstance(250, 170, Image.SCALE_DEFAULT);
-        levelImg[2] = (new ImageIcon(getClass().getResource("/resources/selectMap3.png"))).getImage().getScaledInstance(250, 170, Image.SCALE_DEFAULT);
+        levelImg[0] = (new ImageIcon(getClass().getResource("/resources/Background/selectMap1.png"))).getImage().getScaledInstance(250, 170, Image.SCALE_DEFAULT);
+        levelImg[1] = (new ImageIcon(getClass().getResource("/resources/Background/selectMap2.png"))).getImage().getScaledInstance(250, 170, Image.SCALE_DEFAULT);
+        levelImg[2] = (new ImageIcon(getClass().getResource("/resources/Background/selectMap3.png"))).getImage().getScaledInstance(250, 170, Image.SCALE_DEFAULT);
         levelText = new String[3];
         levelText[0] = "\u7b80\u5355";
         levelText[1] = "\u4e2d\u7b49";
         levelText[2] = "\u56f0\u96be";
-        backgroundImg = (new ImageIcon(getClass().getResource("/resources/selectBackground.png"))).getImage();
-        buttonLeftImg = (new ImageIcon(getClass().getResource("/resources/selectLeft.png"))).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
-        buttonRightImg = (new ImageIcon(getClass().getResource("/resources/selectRight.png"))).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
-        buttonStartImg = (new ImageIcon(getClass().getResource("/resources/selectStart.png"))).getImage().getScaledInstance(120, 45, Image.SCALE_DEFAULT);
-        buttonBackImg = (new ImageIcon(getClass().getResource("/resources/buttonBack.png"))).getImage().getScaledInstance(120, 45, Image.SCALE_DEFAULT);
+        backgroundImg = (new ImageIcon(getClass().getResource("/resources/Background/selectBackground.png"))).getImage();
+        buttonLeftImg = (new ImageIcon(getClass().getResource("/resources/Items/selectLeft.png"))).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
+        buttonRightImg = (new ImageIcon(getClass().getResource("/resources/Items/selectRight.png"))).getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT);
+        buttonStartImg = (new ImageIcon(getClass().getResource("/resources/Items/selectStart.png"))).getImage().getScaledInstance(120, 45, Image.SCALE_DEFAULT);
+        buttonBackImg = (new ImageIcon(getClass().getResource("/resources/Items/buttonBack.png"))).getImage().getScaledInstance(120, 45, Image.SCALE_DEFAULT);
 
         buttonLeft.setIcon(new ImageIcon(buttonLeftImg));
         buttonRight.setIcon(new ImageIcon(buttonRightImg));

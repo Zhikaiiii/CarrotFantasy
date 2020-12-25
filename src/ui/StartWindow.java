@@ -14,7 +14,7 @@ import control.Controller;
  */
 public class StartWindow extends JPanel {
     public StartWindow() {
-        backgroundImg = (new ImageIcon(getClass().getResource("/resources/background.png"))).getImage();
+        backgroundImg = (new ImageIcon(getClass().getResource("/resources/Background/background.png"))).getImage();
         initComponents();
         setVisible(true);
     }

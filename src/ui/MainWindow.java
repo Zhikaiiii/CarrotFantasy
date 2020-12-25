@@ -18,27 +18,41 @@ import javax.swing.*;
 public class MainWindow extends JPanel {
     public MainWindow() {
         initComponents();
-        backgroundMenuImg = (new ImageIcon(getClass().getResource("/resources/menuBackground.png"))).getImage();
-        backgroundMapImg = (new ImageIcon(getClass().getResource("/resources/mapBackground1.png"))).getImage();
-        fireImg = (new ImageIcon(getClass().getResource("/resources/fire.png"))).getImage();
-        towerBottleImg = (new ImageIcon(getClass().getResource("/resources/bottlePlace.png"))).getImage();
-        towerSunflowerImg = (new ImageIcon(getClass().getResource("/resources/sunflowerPlace.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
-        bottleHitImg = (new ImageIcon(getClass().getResource("/resources/bottleAttack.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
-        sunflowerHitImg = (new ImageIcon(getClass().getResource("/resources/sunflowerAttack.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
-        labelCarrotImg = (new ImageIcon(getClass().getResource("/resources/carrot.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
-        labelCarrotHitImg = (new ImageIcon(getClass().getResource("/resources/carrotAttack.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
-        forbiddenImg = (new ImageIcon(getClass().getResource("/resources/forbidden.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+        backgroundMenuImg = (new ImageIcon(getClass().getResource("/resources/Background/menuBackground.png"))).getImage();
+        backgroundMapImg = (new ImageIcon(getClass().getResource("/resources/Background/mapBackground1.png"))).getImage();
 
-        Image labelSelectImage = (new ImageIcon(getClass().getResource("/resources/addTower.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
-        Image buttonBottleImage = (new ImageIcon(getClass().getResource("/resources/bottleDark.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
-        Image buttonSunflowerImage = (new ImageIcon(getClass().getResource("/resources/sunflowerDark.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
-        Image buttonBottleEnableImage = (new ImageIcon(getClass().getResource("/resources/bottle.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
-        Image buttonSunflowerEnableImage = (new ImageIcon(getClass().getResource("/resources/sunflower.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
-        Image buttonDeleteImage = (new ImageIcon(getClass().getResource("/resources/sell.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
-        Image buttonMenuImage = (new ImageIcon(getClass().getResource("/resources/buttonMenu.png"))).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT);
+        fireImg = (new ImageIcon(getClass().getResource("/resources/GameElement/fire.png"))).getImage();
+        snowImg = (new ImageIcon(getClass().getResource("/resources/GameElement/snow.png"))).getImage();
 
-        buttonPauseImg = (new ImageIcon(getClass().getResource("/resources/buttonPause.png"))).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT);
-        buttonPauseImg2 = (new ImageIcon(getClass().getResource("/resources/buttonPause2.png"))).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT);
+        towerBottleImg = (new ImageIcon(getClass().getResource("/resources/GameElement/bottlePlace.png"))).getImage();
+        towerSunflowerImg = (new ImageIcon(getClass().getResource("/resources/GameElement/sunflowerPlace.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+        towerSnowflowerImg = (new ImageIcon(getClass().getResource("/resources/GameElement/snowflowerPlace.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+        towerArrowImg = (new ImageIcon(getClass().getResource("/resources/GameElement/arrowPlace.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+        labelCarrotImg = (new ImageIcon(getClass().getResource("/resources/GameElement/carrot.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+        labelCarrotHitImg = (new ImageIcon(getClass().getResource("/resources/GameElement/carrotAttack.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+
+        bottleHitImg = (new ImageIcon(getClass().getResource("/resources/GameElement/bottleAttack.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+        sunflowerHitImg = (new ImageIcon(getClass().getResource("/resources/GameElement/sunflowerAttack.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+        snowflowerHitImg = (new ImageIcon(getClass().getResource("/resources/GameElement/snowflowerAttack.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+
+        forbiddenImg = (new ImageIcon(getClass().getResource("/resources/Items/forbidden.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+        buttonPauseImg = (new ImageIcon(getClass().getResource("/resources/Items/buttonPause.png"))).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT);
+        buttonPauseImg2 = (new ImageIcon(getClass().getResource("/resources/Items/buttonPause2.png"))).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT);
+
+        Image labelSelectImage = (new ImageIcon(getClass().getResource("/resources/Items/addTower.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+        Image buttonBottleImage = (new ImageIcon(getClass().getResource("/resources/GameElement/bottleDark.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+        Image buttonSunflowerImage = (new ImageIcon(getClass().getResource("/resources/GameElement/sunflowerDark.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+        Image buttonSnowflowerImage = (new ImageIcon(getClass().getResource("/resources/GameElement/snowflowerDark.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+        Image buttonArrowImage = (new ImageIcon(getClass().getResource("/resources/GameElement/arrowDark.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+
+        Image buttonBottleEnableImage = (new ImageIcon(getClass().getResource("/resources/GameElement/bottle.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+        Image buttonSunflowerEnableImage = (new ImageIcon(getClass().getResource("/resources/GameElement/sunflower.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+        Image buttonSnowflowerEnableImage = (new ImageIcon(getClass().getResource("/resources/GameElement/snowflower.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+        Image buttonArrowEnableImage = (new ImageIcon(getClass().getResource("/resources/GameElement/arrow.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+
+        Image buttonDeleteImage = (new ImageIcon(getClass().getResource("/resources/Items/sell.png"))).getImage().getScaledInstance(80, 80, Image.SCALE_DEFAULT);
+        Image buttonMenuImage = (new ImageIcon(getClass().getResource("/resources/Items/buttonMenu.png"))).getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT);
+
 
         panelMap.setBounds(panelMenu.getX(), panelMenu.getY() + panelMenu.getHeight(), 880, 480);
 
@@ -50,6 +64,10 @@ public class MainWindow extends JPanel {
         buttonBottle.setIcon(new ImageIcon(buttonBottleEnableImage));
         buttonSunflower.setDisabledIcon(new ImageIcon(buttonSunflowerImage));
         buttonSunflower.setIcon(new ImageIcon(buttonSunflowerEnableImage));
+        buttonSnowflower.setDisabledIcon(new ImageIcon(buttonSnowflowerImage));
+        buttonSnowflower.setIcon(new ImageIcon(buttonSnowflowerEnableImage));
+        buttonArrow.setDisabledIcon(new ImageIcon(buttonArrowImage));
+        buttonArrow.setIcon(new ImageIcon(buttonArrowEnableImage));
         buttonDelete.setIcon(new ImageIcon(buttonDeleteImage));
 
         buttonPause.setIcon(new ImageIcon(buttonPauseImg));
@@ -73,12 +91,17 @@ public class MainWindow extends JPanel {
                     labelSelect.setVisible(false);
                     buttonBottle.setEnabled(false);
                     buttonSunflower.setEnabled(false);
+                    buttonSnowflower.setEnabled(false);
+                    buttonArrow.setEnabled(false);
                 }
                 else{
                     labelSelect.setLocation(column*80, row*80);
                     labelSelect.setVisible(true);
-                    buttonBottle.setEnabled(Controller.isTowerAvailable(TowerType.BOTTLE));
-                    buttonSunflower.setEnabled(Controller.isTowerAvailable(TowerType.SUNFLOWER));
+                    buttonBottle.setEnabled(Controller.isTowerAvailable(TowerType.BOTTLE, row, column));
+                    buttonSunflower.setEnabled(Controller.isTowerAvailable(TowerType.SUNFLOWER, row, column));
+                    buttonSnowflower.setEnabled(Controller.isTowerAvailable(TowerType.SNOWFLOWER, row, column));
+                    buttonArrow.setEnabled(Controller.isTowerAvailable(TowerType.ARROW, row, column));
+                    buttonDelete.setEnabled(false);
                 }
             }
             else if(Controller.getMapElement(row, column) == MapElement.HAVETOWER){
@@ -86,6 +109,7 @@ public class MainWindow extends JPanel {
                 towerDeleteX = column * 80;
                 towerDeleteY = row * 80;
             }
+            // 如果是障碍
             else if(Controller.getMapElement(row, column) == MapElement.BARRIER){
                 new Thread(() -> {
                     JLabel forbiddenLabel = new JLabel();
@@ -111,6 +135,8 @@ public class MainWindow extends JPanel {
                 labelSelect.setVisible(false);
                 buttonBottle.setEnabled(false);
                 buttonSunflower.setEnabled(false);
+                buttonSnowflower.setEnabled(false);
+                buttonArrow.setEnabled(false);
             }
         }
     }
@@ -122,11 +148,18 @@ public class MainWindow extends JPanel {
         if(e.getSource() == buttonSunflower){
             Controller.addTower(TowerType.SUNFLOWER, column, row);
         }
+        else if(e.getSource() == buttonSnowflower){
+            Controller.addTower(TowerType.SNOWFLOWER, column, row);
+        }
+        else if(e.getSource() == buttonArrow){
+            Controller.addTower(TowerType.ARROW, column, row);
+        }
         else{
             Controller.addTower(TowerType.BOTTLE, column, row);
         }
         buttonSunflower.setEnabled(false);
         buttonBottle.setEnabled(false);
+        buttonSnowflower.setEnabled(false);
     }
 
     private void buttonPauseActionPerformed(ActionEvent e) {
@@ -175,17 +208,17 @@ public class MainWindow extends JPanel {
         panelTower = new JPanel();
         buttonBottle = new JButton();
         buttonSunflower = new JButton();
+        buttonSnowflower = new JButton();
+        buttonArrow = new JButton();
         buttonDelete = new JButton();
 
         //======== this ========
         setPreferredSize(new Dimension(960, 660));
-        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new javax . swing
-        . border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JFor\u006dDesi\u0067ner \u0045valu\u0061tion" , javax. swing .border . TitledBorder
-        . CENTER ,javax . swing. border .TitledBorder . BOTTOM, new java. awt .Font ( "Dia\u006cog", java .
-        awt . Font. BOLD ,12 ) ,java . awt. Color .red ) , getBorder () ) )
-        ;  addPropertyChangeListener( new java. beans .PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e
-        ) { if( "bord\u0065r" .equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } )
-        ;
+        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border. EmptyBorder(
+        0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder
+        . BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 ), java. awt. Color.
+        red) , getBorder( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .
+        beans .PropertyChangeEvent e) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
 
         //======== panelMenu ========
@@ -308,6 +341,24 @@ public class MainWindow extends JPanel {
             buttonSunflower.addActionListener(e -> buttonTowerActionPerformed(e));
             panelTower.add(buttonSunflower);
 
+            //---- buttonSnowflower ----
+            buttonSnowflower.setPreferredSize(new Dimension(80, 80));
+            buttonSnowflower.setContentAreaFilled(false);
+            buttonSnowflower.setIconTextGap(0);
+            buttonSnowflower.setBorder(null);
+            buttonSnowflower.setEnabled(false);
+            buttonSnowflower.addActionListener(e -> buttonTowerActionPerformed(e));
+            panelTower.add(buttonSnowflower);
+
+            //---- buttonArrow ----
+            buttonArrow.setPreferredSize(new Dimension(80, 80));
+            buttonArrow.setContentAreaFilled(false);
+            buttonArrow.setIconTextGap(0);
+            buttonArrow.setBorder(null);
+            buttonArrow.setEnabled(false);
+            buttonArrow.addActionListener(e -> buttonTowerActionPerformed(e));
+            panelTower.add(buttonArrow);
+
             //---- buttonDelete ----
             buttonDelete.setPreferredSize(new Dimension(80, 80));
             buttonDelete.setContentAreaFilled(false);
@@ -334,12 +385,13 @@ public class MainWindow extends JPanel {
     // 添加怪物
     public JPanel addMonster(int x, int y){
         JPanel monsterPanel = new JPanel();
-        monsterPanel.setBounds(x, y, 80, 80);
-        monsterPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+//        JLayeredPane monsterPanel = new JLayeredPane();
+        monsterPanel.setLayout(null);
         monsterPanel.setOpaque(false);
 
         JProgressBar monsterProgressBar = new JProgressBar(0, Controller.level.getMonsterHP());
         monsterProgressBar.setPreferredSize(new Dimension(80, 10));
+        monsterProgressBar.setBounds(0, 1, 80, 10);
         monsterProgressBar.setValue(Controller.level.getMonsterHP());
         monsterProgressBar.setForeground(Color.GREEN);
 
@@ -348,7 +400,8 @@ public class MainWindow extends JPanel {
         monsterLabel.setOpaque(false);
         monsterLabel.setBorder(null);
         monsterLabel.setIconTextGap(0);
-        monsterLabel.setIcon(new ImageIcon(getClass().getResource("/resources/monster.png")));
+        monsterLabel.setIcon(new ImageIcon(getClass().getResource("/resources/GameElement/monster.png")));
+        monsterLabel.setBounds(5, 10, 70, 70);
 
         monsterProgressBar.setVisible(true);
         monsterLabel.setVisible(true);
@@ -357,6 +410,7 @@ public class MainWindow extends JPanel {
         monsterPanel.add(monsterProgressBar);
         monsterPanel.add(monsterLabel);
         panelMap.add(monsterPanel);
+        monsterPanel.setBounds(x, y, 80, 80);
         panelMap.updateUI();
         return monsterPanel;
     }
@@ -374,16 +428,12 @@ public class MainWindow extends JPanel {
         }
         else if(type == TowerType.SUNFLOWER){
             towerLabel.setIcon(new ImageIcon(towerSunflowerImg));
-            // 生成火焰
-            JLabel fireLabel = new JLabel();
-            fireLabel.setBounds(x-160, y-160, 400, 400);
-            fireLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            fireLabel.setVerticalAlignment(SwingConstants.CENTER);
-            fireLabel.setOpaque(false);
-            fireLabel.setBorder(null);
-            fireLabel.setIconTextGap(0);
-            fireLabel.setVisible(false);
-            panelMap.add(fireLabel);
+        }
+        else if(type == TowerType.SNOWFLOWER){
+            towerLabel.setIcon(new ImageIcon(towerSnowflowerImg));
+        }
+        else if(type == TowerType.ARROW){
+            towerLabel.setIcon(new ImageIcon(towerArrowImg));
         }
         towerLabel.setVisible(true);
         labelSelect.setVisible(false);
@@ -392,74 +442,108 @@ public class MainWindow extends JPanel {
     }
 
     // 添加子弹
-    public JLabel addBullet(int x, int y){
-        JLabel bulletLabel = new JLabel();
+    public RotateJLabel addBullet(int x, int y, TowerType type){
+        RotateJLabel bulletLabel = new RotateJLabel();
         bulletLabel.setBounds(x, y, 80, 80);
         bulletLabel.setHorizontalAlignment(SwingConstants.CENTER);
         bulletLabel.setOpaque(false);
         bulletLabel.setBorder(null);
         bulletLabel.setIconTextGap(0);
-        bulletLabel.setIcon(new ImageIcon(getClass().getResource("/resources/bullet.png")));
+        if(type == TowerType.ARROW){
+            bulletLabel.setIcon(new ImageIcon(getClass().getResource("/resources/GameElement/bulletArrow.png")));
+        }
+        else{
+            bulletLabel.setIcon(new ImageIcon(getClass().getResource("/resources/GameElement/bullet.png")));
+        }
         bulletLabel.setVisible(true);
         panelMap.add(bulletLabel);
         panelMap.updateUI();
         return bulletLabel;
     }
 
-    public void rotateTower(RotateJLabel bottleLabel, double angle) {
-        bottleLabel.setAngle(angle);
-        bottleLabel.updateUI();
+    public void rotate(RotateJLabel rotateLabel, double angle) {
+        rotateLabel.setAngle(angle);
+        rotateLabel.updateUI();
     }
 
-    // 太阳花火焰扩散
-    public void updateFire(int x, int y){
-        JLabel fireLabel = (JLabel) panelMap.getComponentAt(x-160, y-160);
-        fireLabel.setVisible(true);
+    // 太阳花和雪花扩散
+    public void updateCircle(int x, int y, TowerType type){
+
+        JLabel circleLabel = new JLabel();
+        circleLabel.setBounds(x-160, y-160, 400, 400);
+        circleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        circleLabel.setVerticalAlignment(SwingConstants.CENTER);
+        circleLabel.setOpaque(false);
+        circleLabel.setBorder(null);
+        circleLabel.setIconTextGap(0);
+        circleLabel.setVisible(false);
+        panelMap.add(circleLabel, -1);
+//        JLabel circleLabel = (JLabel) panelMap.getComponentAt(x-159, y-159);
+        circleLabel.setVisible(true);
+        Image img = fireImg;
+        if(type == TowerType.SNOWFLOWER){
+            img = snowImg;
+        }
         for(int imgSize = 1; imgSize < 200; imgSize++){
-            Image fireImgResized = fireImg.getScaledInstance(imgSize, imgSize, Image.SCALE_DEFAULT);
-            fireLabel.setIcon(new ImageIcon(fireImgResized));
+            Image fireImgResized = img.getScaledInstance(imgSize, imgSize, Image.SCALE_DEFAULT);
+            circleLabel.setIcon(new ImageIcon(fireImgResized));
             try {
                 Thread.sleep((long) 0.1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        fireLabel.setVisible(false);
+        circleLabel.setVisible(false);
+        panelMap.remove(circleLabel);
     }
 
     // 怪物击中效果
-    public void monsterHit(int x, int y, TowerType type){
-        new Thread(() -> {
-            Image hitImage = null;
-            JLabel hitLabel = new JLabel();
-            hitLabel.setBounds(x, y, 80, 80);
-            hitLabel.setHorizontalAlignment(SwingConstants.CENTER);
-            hitLabel.setOpaque(false);
-            hitLabel.setBorder(null);
-            hitLabel.setIconTextGap(0);
-            hitLabel.setVisible(true);
-            switch (type){
-                case SUNFLOWER:
-                    hitImage = sunflowerHitImg;
-                    hitLabel.setIcon(new ImageIcon(hitImage));
-                    panelMap.add(hitLabel, -1);
-                    break;
-                case BOTTLE:
-                    hitImage = bottleHitImg;
-                    hitLabel.setIcon(new ImageIcon(hitImage));
-                    panelMap.add(hitLabel, 0);
-                    break;
-                default:
-                    break;
-            }
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            hitLabel.setVisible(false);
-            panelMap.remove(hitLabel);
-        }).start();//开启线程
+    public void monsterHit(int x, int y, TowerType type, JPanel monsterPanel){
+        try{
+            new Thread(() -> {
+                Image hitImage;
+                JLabel hitLabel = new JLabel();
+                hitLabel.setBounds(0, 10, 80, 70);
+                hitLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                hitLabel.setOpaque(false);
+                hitLabel.setBorder(null);
+                hitLabel.setIconTextGap(0);
+                hitLabel.setVisible(true);
+//            hitLabel.setLocation(0, 10);
+                switch (type){
+                    case SUNFLOWER:
+                        hitImage = sunflowerHitImg;
+                        hitLabel.setIcon(new ImageIcon(hitImage));
+                        monsterPanel.add(hitLabel, -1);
+                        break;
+                    case BOTTLE :
+                    case ARROW:
+                        hitImage = bottleHitImg;
+                        hitLabel.setIcon(new ImageIcon(hitImage));
+                        monsterPanel.add(hitLabel, 1);
+                        break;
+                    case SNOWFLOWER:
+                        hitImage = snowflowerHitImg;
+                        hitLabel.setIcon(new ImageIcon(hitImage));
+                        monsterPanel.add(hitLabel, 1);
+                    default:
+                        break;
+                }
+                try {
+                    Thread.sleep(100);
+                    if(type == TowerType.SNOWFLOWER || type==TowerType.SUNFLOWER){
+                        Thread.sleep(900);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                hitLabel.setVisible(false);
+                monsterPanel.remove(hitLabel);
+            }).start();//开启线程
+        }
+        catch (ClassCastException e){
+            System.out.println("wrong error");
+        }
     }
 
     // 萝卜被攻击效果
@@ -479,13 +563,13 @@ public class MainWindow extends JPanel {
 
     public void setLevel(Difficulty d){
         if(d == Difficulty.EASY){
-            backgroundMapImg = (new ImageIcon(getClass().getResource("/resources/mapBackground1.png"))).getImage();
+            backgroundMapImg = (new ImageIcon(getClass().getResource("/resources/Background/mapBackground1.png"))).getImage();
         }
         else if(d == Difficulty.MEDIUM){
-            backgroundMapImg = (new ImageIcon(getClass().getResource("/resources/mapBackground2.png"))).getImage();
+            backgroundMapImg = (new ImageIcon(getClass().getResource("/resources/Background/mapBackground2.png"))).getImage();
         }
         else{
-            backgroundMapImg = (new ImageIcon(getClass().getResource("/resources/mapBackground3.png"))).getImage();
+            backgroundMapImg = (new ImageIcon(getClass().getResource("/resources/Background/mapBackground3.png"))).getImage();
         }
         panelCarrot.setLocation(Controller.map.getEndColumn()*80, Controller.map.getEndRow()*80);
     }
@@ -496,7 +580,7 @@ public class MainWindow extends JPanel {
 
     public void setCarrotHP(int hp){
         if(hp > 0){
-            String ImageDir = "/resources/CarrotHP" + hp +".png";
+            String ImageDir = "/resources/GameElement/CarrotHP" + hp +".png";
             labelHP.setIcon(new ImageIcon(getClass().getResource(ImageDir)));
         }
     }
@@ -517,18 +601,31 @@ public class MainWindow extends JPanel {
     public JPanel panelTower;
     private JButton buttonBottle;
     private JButton buttonSunflower;
+    private JButton buttonSnowflower;
+    private JButton buttonArrow;
     private JButton buttonDelete;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
     private final Image backgroundMenuImg;
     private final Image buttonPauseImg;
     private final Image buttonPauseImg2;
+
+    // 防御塔图片
     private final Image towerBottleImg;
     private final Image towerSunflowerImg;
+    private final Image towerSnowflowerImg;
+    private final Image towerArrowImg;
     private final Image labelCarrotImg;
     private final Image labelCarrotHitImg;
+
+    // 扩散效果图片
     private final Image fireImg;
+    private final Image snowImg;
+
+    // 攻击效果图片
     private final Image bottleHitImg;
     private final Image sunflowerHitImg;
+    private final Image snowflowerHitImg;
+
     private final Image forbiddenImg;
     private Image backgroundMapImg;
 

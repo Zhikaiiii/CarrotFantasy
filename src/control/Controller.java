@@ -27,7 +27,7 @@ public class Controller {
     public static Iterator<Bullet> bulletIterator;
     public static Iterator<Tower> towerIterator;
     public static Iterator<JPanel> monsterPanelIterator;
-    public static Iterator<JLabel> bulletLabelIterator;
+    public static Iterator<RotateJLabel> bulletLabelIterator;
     public static Iterator<RotateJLabel> towerLabelIterator;
 
     // ui相关
@@ -36,7 +36,7 @@ public class Controller {
     public static GameEndDialog d;
     public static ArrayList<JPanel> allMonsterPanels;
     public static ArrayList<RotateJLabel> allTowerLabels;
-    public static ArrayList<JLabel> allBulletLabels;
+    public static ArrayList<RotateJLabel> allBulletLabels;
 
     public static boolean gameEndFlag;
     public static boolean gamePauseFlag;
@@ -72,7 +72,7 @@ public class Controller {
         allBullet = new ArrayList<Bullet>();
 
         // ui
-        allMonsterPanels = new ArrayList<>();
+        allMonsterPanels = new ArrayList<JPanel>();
         allTowerLabels = new ArrayList<>();
         allBulletLabels = new ArrayList<>();
         monsterIterator = allMonster.iterator();
@@ -136,7 +136,17 @@ public class Controller {
                 case SUNFLOWER:
                     t = new SunFlower(row, column, x, y);
                     tLabel = w.addTower(x, y, type);
-                    currMoney.addAndGet(-Bottle.getBuyPrice());
+                    currMoney.addAndGet(-SunFlower.getBuyPrice());
+                    break;
+                case SNOWFLOWER:
+                    t = new SnowFlower(row, column, x, y);
+                    tLabel = w.addTower(x, y, type);
+                    currMoney.addAndGet(-SnowFlower.getBuyPrice());
+                    break;
+                case ARROW:
+                    t = new Arrow(row, column, x, y);
+                    tLabel = w.addTower(x, y, type);
+                    currMoney.addAndGet(-Arrow.getBuyPrice());
                     break;
                 default:
                     break;
@@ -169,6 +179,7 @@ public class Controller {
                     switch (t.getTowerType()){
                         case BOTTLE -> currMoney.addAndGet(Bottle.getSellPrice());
                         case SUNFLOWER -> currMoney.addAndGet(SunFlower.getSellPrice());
+                        case SNOWFLOWER -> currMoney.addAndGet(SnowFlower.getSellPrice());
                     }
                     map.setMapElement(y/80, x/80, MapElement.EMPTY);
                     break;
@@ -176,6 +187,21 @@ public class Controller {
             }
         }
     }
+
+    // 旋转瓶子
+    public static void rotate(Tower t, double angle){
+        // 瓶子转向
+        RotateJLabel l = allTowerLabels.get(Controller.allTower.indexOf(t));
+        w.rotate(l, angle);
+    }
+
+    // 选择子弹
+    public static void rotate(Bullet b, double angle){
+        // 瓶子转向
+        RotateJLabel l = allBulletLabels.get(Controller.allBullet.indexOf(b));
+        w.rotate(l, angle);
+    }
+
 
     // 添加下一波怪物
     public static void addWave(){
@@ -252,7 +278,7 @@ public class Controller {
                 m.move(dColumn, dRow);
                 JPanel mPanel = monsterPanelIterator.next();
                 mPanel.setLocation(m.getX(), m.getY());
-                JProgressBar p = (JProgressBar) mPanel.getComponent(0);
+                JProgressBar p = (JProgressBar) mPanel.getComponent( 0);
                 p.setValue(m.getHp());
 
                 // 被消灭
@@ -286,7 +312,6 @@ public class Controller {
 
             }
         }
-
     }
     // 所有防御塔进行攻击
     public static void allTowerAttack(){
@@ -311,25 +336,29 @@ public class Controller {
                 Bullet b = bulletIterator.next();
                 JLabel bLabel = bulletLabelIterator.next();
                 // 如果是太阳花
-                if(b.getParentType() == TowerType.SUNFLOWER){
+                if(b.getParentType() == TowerType.SUNFLOWER || b.getParentType() == TowerType.SNOWFLOWER){
                     bLabel.setVisible(false);
-//                    w.updateFire(b.getStartX(), b.getStartY(), b.getX(), b.getY());
                 }
-                b.move();
+                b.update();
                 bLabel.setLocation(b.getX(), b.getY());
                 w.panelMap.updateUI();
                 if(b.getIsCollide()){
                     bulletIterator.remove();
                     bulletLabelIterator.remove();
-                    if(b.getParentType() == TowerType.BOTTLE){
-                        bLabel.setVisible(false);
-                    }
-                    // 子弹攻击效果
-                    w.monsterHit(b.getTargetMonster().getX(), b.getTargetMonster().getY(), b.getParentType());
-//                    else if(b.getParentType() == TowerType.SUNFLOWER){
-//                        w.updateFire(b.getStartX(), b.getStartY(), 1000, 1000);
-//                    }
+                    bLabel.setVisible(false);
                     w.panelMap.remove(bLabel);
+
+                    synchronized (allMonster){
+                        int idx = allMonster.indexOf(b.getTargetMonster());
+                        try{
+                            JPanel mPanel = allMonsterPanels.get(idx);
+                            // 子弹攻击效果
+                            w.monsterHit(b.getTargetMonster().getX(), b.getTargetMonster().getY(), b.getParentType(), mPanel);
+                        }
+                        catch (IndexOutOfBoundsException e){
+                            System.out.println("monster have been eliminated");
+                        }
+                    }
                 }
             }
         }
@@ -358,14 +387,20 @@ public class Controller {
         return level.getNumWaves();
     }
 
-    public static boolean isTowerAvailable(TowerType type){
+    public static boolean isTowerAvailable(TowerType type, int row, int column){
 //        TowerType t =
         switch (type){
             case BOTTLE -> {
                 return currMoney.get() >= Bottle.getBuyPrice();
             }
             case SUNFLOWER -> {
-                return currMoney.get() >= SunFlower.getBuyPrice();
+                return currMoney.get() >= SunFlower.getBuyPrice() && row!=0 && column !=0;
+            }
+            case SNOWFLOWER -> {
+                return currMoney.get() >= SnowFlower.getBuyPrice() && row!=0 && column !=0;
+            }
+            case ARROW -> {
+                return currMoney.get() >= Arrow.getBuyPrice();
             }
             default -> {
                 return false;
@@ -418,7 +453,9 @@ class MonsterMoveThread implements Runnable{
             }
             Controller.allMonsterMove();
             try {
-                Thread.sleep(20/Controller.level.getMonsterSpeed());
+//                double sleepTime = 2.0/Controller.level.getMonsterSpeed();
+//                System.out.println(sleepTime);
+                Thread.sleep(2);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -473,8 +510,6 @@ class GameStateJudgeThread implements Runnable{
                     Controller.lock.notifyAll();
                 }
             }
-
-
             // 游戏胜利或者失败
             if(Controller.isGameWin()){
                 Controller.d = new GameEndDialog(Controller.f);

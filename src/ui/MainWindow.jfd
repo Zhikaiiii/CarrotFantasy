@@ -160,7 +160,25 @@ new FormModel {
 				} )
 				add( new FormComponent( "javax.swing.JButton" ) {
 					name: "buttonSunflower"
-					"preferredSize": new java.awt.Dimension( 80, 80 )
+					"preferredSize": &Dimension0 new java.awt.Dimension( 80, 80 )
+					"contentAreaFilled": false
+					"iconTextGap": 0
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"enabled": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "buttonTowerActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "buttonSnowflower"
+					"preferredSize": #Dimension0
+					"contentAreaFilled": false
+					"iconTextGap": 0
+					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
+					"enabled": false
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "buttonTowerActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "buttonArrow"
+					"preferredSize": #Dimension0
 					"contentAreaFilled": false
 					"iconTextGap": 0
 					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE

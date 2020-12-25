@@ -4,7 +4,9 @@ import control.Controller;
 
 public class Monster extends Actor{
     // 移动速度
-    protected int speed;
+    protected double speed;
+    protected int count;
+
     // 位于道路上的第几个位置
     protected int position;
     // 金钱奖励
@@ -15,9 +17,10 @@ public class Monster extends Actor{
         this.speed = speed;
         this.position = 0;
         this.money = 20;
+        this.count = 0;
     }
 
-    public int getSpeed(){
+    public double getSpeed(){
         return speed;
     }
     public int getPosition(){
@@ -27,7 +30,7 @@ public class Monster extends Actor{
         return money;
     }
 
-    public void setSpeed(int speed){
+    public void setSpeed(double speed){
         this.speed = speed;
     }
     public void setPosition(int position){
@@ -39,16 +42,21 @@ public class Monster extends Actor{
         // 可能有多个防御塔同时攻击怪物
         synchronized (this){
             this.hp = hp;
-//            if(this.hp <=0){
-////                Controller.allMonster.remove(this);
-//                Controller.updateMoney(this.money);
-//            }
         }
     }
     // 怪物移动
     public void move(int dx, int dy){
-        x = x + dx;
-        y = y + dy;
+
+        // 移动速度*时间
+        if(count * speed > 10){
+            x = x + dx;
+            y = y + dy;
+            count = 0;
+        }
+        else{
+            count += 1;
+        }
+
     }
     // 判断是否到达萝卜
     public boolean isArrived(int endColumn, int endRow){
