@@ -8,11 +8,7 @@ new FormModel {
 			"vgap": 200
 		} ) {
 			name: "this"
-			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.GridLayout ) {
-				"columns": 1
-				"rows": 2
-				"vgap": 20
-			} ) {
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class java.awt.FlowLayout ) ) {
 				name: "panelButton"
 				"opaque": false
 				add( new FormComponent( "javax.swing.JButton" ) {
@@ -22,7 +18,7 @@ new FormModel {
 					"contentAreaFilled": false
 					"borderPainted": false
 					"border": sfield com.jformdesigner.model.FormObject NULL_VALUE
-					"icon": new com.jformdesigner.model.SwingIcon( 0, "/resources/button_select.png" )
+					"icon": sfield com.jformdesigner.model.FormObject NULL_VALUE
 					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "buttonSelectActionPerformed", true ) )
 				} )
 			} )

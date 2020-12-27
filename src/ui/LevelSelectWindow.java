@@ -37,6 +37,7 @@ public class LevelSelectWindow extends JPanel {
         buttonBack.setIcon(new ImageIcon(buttonBackImg));
 
         labelLevel.setIcon(new ImageIcon(levelImg[0]));
+        buttonLeft.setEnabled(false);
         currDifficulty = Difficulty.EASY;
 //        labelLevel2.setIcon(new ImageIcon(levelImg2));
 //        labelLevel3.setIcon(new ImageIcon(levelImg3));
@@ -77,8 +78,13 @@ public class LevelSelectWindow extends JPanel {
         Controller.f = new JFrame();
         StartWindow s = new StartWindow();
         Controller.f.setSize(700, 500);
+        Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) screensize.getWidth() / 2 - Controller.f.getWidth() / 2;
+        int y = (int) screensize.getHeight() / 2 - Controller.f.getHeight() / 2;
+        Controller.f.setLocation(x, y);
         Controller.f.add(s);
         Controller.f.setVisible(true);
+        Controller.f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
 //    private void labelLevelMouseClicked(MouseEvent e) {
@@ -109,13 +115,6 @@ public class LevelSelectWindow extends JPanel {
 
         //======== this ========
         setPreferredSize(new Dimension(650, 450));
-        setBorder ( new javax . swing. border .CompoundBorder ( new javax . swing. border .TitledBorder ( new
-        javax . swing. border .EmptyBorder ( 0, 0 ,0 , 0) ,  "JFor\u006dDesi\u0067ner \u0045valu\u0061tion" , javax
-        . swing .border . TitledBorder. CENTER ,javax . swing. border .TitledBorder . BOTTOM, new java
-        . awt .Font ( "Dia\u006cog", java .awt . Font. BOLD ,12 ) ,java . awt
-        . Color .red ) , getBorder () ) );  addPropertyChangeListener( new java. beans .
-        PropertyChangeListener ( ){ @Override public void propertyChange (java . beans. PropertyChangeEvent e) { if( "bord\u0065r" .
-        equals ( e. getPropertyName () ) )throw new RuntimeException( ) ;} } );
         setLayout(new FlowLayout(FlowLayout.CENTER, 5, 30));
 
         //======== panelLevel ========

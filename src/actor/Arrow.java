@@ -6,12 +6,12 @@ import control.TowerType;
 public class Arrow extends Bottle{
     protected int targetNum;
 
-    private static final int buyPrice = 200;
+    private static final int buyPrice = 220;
     private static final int sellPrice = 160;
 
     public Arrow(int row, int column, int x, int y) {
         super(row, column, x, y);
-        this.attackPower = 50;
+        this.attackPower = 30;
         this.attackRange = 3;
         this.attackInterval = 20;
         this.type = TowerType.ARROW;
@@ -47,16 +47,17 @@ public class Arrow extends Bottle{
                 angle2 -= 2*Math.PI;
             }
             int currTargetNum = 1;
-            synchronized (Controller.allMonster) {
-                for (Monster m : Controller.allMonster) {
-                    if(currTargetNum == targetNum){
-                        break;
-                    }
-                    if(Math.abs(m.getColumn() - column) <= attackRange && (Math.abs(m.getRow() - row) <= attackRange)){
-                        double newAngle = Math.atan2(m.getY()- y, m.getX() - x);
-                        //与第一个目标不同且在夹角范围内
-                        if( m != nearestMonster && ((newAngle > angle1 && newAngle < angle2) || newAngle > angle1 || newAngle < angle2)){
-                            synchronized (Controller.allBullet){
+            synchronized (Controller.allBullet) {
+                synchronized (Controller.allMonster) {
+                    for (Monster m : Controller.allMonster) {
+                        if (currTargetNum == targetNum) {
+                            break;
+                        }
+                        if (Math.abs(m.getX() - x) <= attackRange * Controller.interval && (Math.abs(m.getY() - y) <= attackRange * Controller.interval)) {
+                            double newAngle = Math.atan2(m.getY() - y, m.getX() - x);
+                            //与第一个目标不同且在夹角范围内
+                            if (m != nearestMonster && ((newAngle > angle1 && newAngle < angle2) || newAngle > angle1 || newAngle < angle2)) {
+//                                synchronized (Controller.allBullet) {
                                 int startX = x;
                                 int startY = y;
                                 int endX = m.getX();
@@ -67,8 +68,9 @@ public class Arrow extends Bottle{
                                 Controller.allBulletLabels.add(Controller.w.addBullet(startX, startY, type));
                                 Controller.allBullet.add(b);
                                 Controller.rotate(b, newAngle);
+//                                }
+                                currTargetNum += 1;
                             }
-                            currTargetNum += 1;
                         }
                     }
                 }

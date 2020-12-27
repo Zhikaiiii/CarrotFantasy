@@ -22,26 +22,31 @@ public class Level {
         switch (this.difficulty){
             case EASY:
                 numWaves = 10;
-                numMonsters = 10;
-                monsterHP = 60;
+                numMonsters = 15;
+                monsterHP = 100;
                 monsterSpeed = 1;
                 break;
             case MEDIUM:
                 numWaves = 15;
-                numMonsters = 15;
-                monsterHP = 80;
+                numMonsters = 20;
+                monsterHP = 150;
                 monsterSpeed = 2;
                 break;
             case DIFFICULTY:
                 numWaves = 15;
-                numMonsters = 20;
-                monsterHP = 100;
+                numMonsters = 25;
+                monsterHP = 200;
                 monsterSpeed = 3;
                 break;
             default:
                 break;
         }
     }
+
+    public void setMonsterHP(){
+        monsterHP = (int)(monsterHP*1.15);
+    }
+
     public int getNumWaves(){
         return numWaves;
     }

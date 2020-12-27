@@ -28,7 +28,7 @@ public class Bottle extends Tower{
         Monster nearestMonster = null;
         synchronized (Controller.allMonster) {
             for (Monster m : Controller.allMonster) {
-                if(Math.abs(m.getColumn() - column) <= attackRange && (Math.abs(m.getRow() - row) <= attackRange)){
+                if(Math.abs(m.getX() - x) <= attackRange*Controller.interval && (Math.abs(m.getY() - y) <= attackRange*Controller.interval)){
                     int dist = (int) Math.sqrt(Math.pow(m.getX() - x, 2) + Math.pow(m.getY() - y, 2));
                     if (dist < minDist) {
                         minDist = dist;

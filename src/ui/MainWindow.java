@@ -104,6 +104,7 @@ public class MainWindow extends JPanel {
                     buttonDelete.setEnabled(false);
                 }
             }
+            // 已经有防御塔
             else if(Controller.getMapElement(row, column) == MapElement.HAVETOWER){
                 buttonDelete.setEnabled(true);
                 towerDeleteX = column * 80;
@@ -111,6 +112,12 @@ public class MainWindow extends JPanel {
             }
             // 如果是障碍
             else if(Controller.getMapElement(row, column) == MapElement.BARRIER){
+                labelSelect.setVisible(false);
+                buttonBottle.setEnabled(false);
+                buttonSunflower.setEnabled(false);
+                buttonSnowflower.setEnabled(false);
+                buttonArrow.setEnabled(false);
+                buttonDelete.setEnabled(false);
                 new Thread(() -> {
                     JLabel forbiddenLabel = new JLabel();
                     forbiddenLabel.setBounds(column*80, row*80, 80, 80);
@@ -129,7 +136,7 @@ public class MainWindow extends JPanel {
                     }
                     forbiddenLabel.setVisible(false);
                     panelMap.remove(forbiddenLabel);
-                }).start();//开启线程
+                }).start();//开启呈现禁止标志的线程
             }
             else{
                 labelSelect.setVisible(false);
@@ -141,6 +148,7 @@ public class MainWindow extends JPanel {
         }
     }
 
+    // 放置防御塔
     private void buttonTowerActionPerformed(ActionEvent e) {
         // TODO add your code here
         int column = labelSelect.getX() / 80;
@@ -160,8 +168,10 @@ public class MainWindow extends JPanel {
         buttonSunflower.setEnabled(false);
         buttonBottle.setEnabled(false);
         buttonSnowflower.setEnabled(false);
+        buttonArrow.setEnabled(false);
     }
 
+    // 暂停
     private void buttonPauseActionPerformed(ActionEvent e) {
         // TODO add your code here
         Controller.pause();
@@ -176,6 +186,7 @@ public class MainWindow extends JPanel {
 
     }
 
+    // 菜单栏
     private void buttonMenuActionPerformed(ActionEvent e) {
         // TODO add your code here
         GameMenuDialog gameMenuDialog = new GameMenuDialog(Controller.f);
@@ -185,6 +196,7 @@ public class MainWindow extends JPanel {
         gameMenuDialog.setVisible(true);
     }
 
+    // 删除防御塔
     private void buttonDeleteActionPerformed(ActionEvent e) {
         // TODO add your code here
         Controller.removeTower(towerDeleteX, towerDeleteY);
@@ -214,11 +226,6 @@ public class MainWindow extends JPanel {
 
         //======== this ========
         setPreferredSize(new Dimension(960, 660));
-        setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax. swing. border. EmptyBorder(
-        0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border. TitledBorder. CENTER, javax. swing. border. TitledBorder
-        . BOTTOM, new java .awt .Font ("Dia\u006cog" ,java .awt .Font .BOLD ,12 ), java. awt. Color.
-        red) , getBorder( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java .
-        beans .PropertyChangeEvent e) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException( ); }} );
         setLayout(new FlowLayout(FlowLayout.CENTER, 0, 5));
 
         //======== panelMenu ========
@@ -377,9 +384,6 @@ public class MainWindow extends JPanel {
         super.paintComponent(g);
         g.drawImage(backgroundMapImg, 0, 0, this.getWidth(), this.getHeight(), this);
         g.drawImage(backgroundMenuImg, panelMenu.getX(), panelMenu.getY(), panelMenu.getWidth(), panelMenu.getHeight(), this);
-//        g.drawImage(backgroundMapImg, panelMap.getX(), panelMap.getY(), panelMap.getWidth(), panelMap.getHeight(), this);
-//        g.drawImage(menuWaveImg, panelWave.getX(), panelWave.getY(), panelWave.getWidth(), panelWave.getHeight(), this);
-//        g.drawImage(backgroundTowerImg, panelTower.getX(), panelTower.getY(), panelTower.getWidth(), panelTower.getHeight(), this);
     }
 
     // 添加怪物
@@ -468,7 +472,6 @@ public class MainWindow extends JPanel {
 
     // 太阳花和雪花扩散
     public void updateCircle(int x, int y, TowerType type){
-
         JLabel circleLabel = new JLabel();
         circleLabel.setBounds(x-160, y-160, 400, 400);
         circleLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -478,13 +481,12 @@ public class MainWindow extends JPanel {
         circleLabel.setIconTextGap(0);
         circleLabel.setVisible(false);
         panelMap.add(circleLabel, -1);
-//        JLabel circleLabel = (JLabel) panelMap.getComponentAt(x-159, y-159);
         circleLabel.setVisible(true);
         Image img = fireImg;
         if(type == TowerType.SNOWFLOWER){
             img = snowImg;
         }
-        for(int imgSize = 1; imgSize < 200; imgSize++){
+        for(int imgSize = 1; imgSize < 300; imgSize++){
             Image fireImgResized = img.getScaledInstance(imgSize, imgSize, Image.SCALE_DEFAULT);
             circleLabel.setIcon(new ImageIcon(fireImgResized));
             try {
@@ -572,6 +574,10 @@ public class MainWindow extends JPanel {
             backgroundMapImg = (new ImageIcon(getClass().getResource("/resources/Background/mapBackground3.png"))).getImage();
         }
         panelCarrot.setLocation(Controller.map.getEndColumn()*80, Controller.map.getEndRow()*80);
+
+        String text = labelWave.getText();
+        text = text.replaceFirst("10", ""+ Controller.level.getNumWaves());
+        labelWave.setText(text);
     }
 
     public void setMoney(int money){
@@ -584,6 +590,18 @@ public class MainWindow extends JPanel {
             labelHP.setIcon(new ImageIcon(getClass().getResource(ImageDir)));
         }
     }
+
+    public void setWave(int currWave){
+        String text = labelWave.getText();
+        if (currWave < 10){
+            text = text.replaceFirst(text.substring(0, 2), "0" + currWave);
+        }
+        else{
+            text = text.replaceFirst(text.substring(0, 2), "" + currWave);
+        }
+        labelWave.setText(text);
+    }
+
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - unknown
@@ -629,6 +647,7 @@ public class MainWindow extends JPanel {
     private final Image forbiddenImg;
     private Image backgroundMapImg;
 
+    // 选择删除的防御塔位置
     private int towerDeleteX;
     private int towerDeleteY;
 }

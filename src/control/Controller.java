@@ -3,6 +3,7 @@ package control;
 import actor.*;
 import ui.*;
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -12,7 +13,8 @@ public class Controller {
     private static AtomicInteger currMoney;  // 金钱
     private static int currWave;
     private static int currMonster;
-    private static int arrivedMonster;
+
+    public static int interval;
     public static Difficulty difficulty;
     public static Level level;
     public static Map map;
@@ -49,15 +51,15 @@ public class Controller {
         currWave = 0;
         currMonster = 0;
         currMoney = new AtomicInteger(500);
-        arrivedMonster = 0;
         gameEndFlag = false;
         gamePauseFlag = false;
         lock = new Object();
-//        f = new JFrame();
-//        d = new GameEndDialog(f);
+
         level = new Level(difficulty);
         map = new Map(difficulty);
+        interval = map.getInterval();
         w.setLevel(difficulty);
+
         // carrot
         int row = map.getEndRow();
         int column = map.getEndColumn();
@@ -78,9 +80,6 @@ public class Controller {
         monsterIterator = allMonster.iterator();
         monsterPanelIterator = allMonsterPanels.iterator();
 
-        String text = w.labelWave.getText();
-        text = text.replaceFirst("10", ""+ level.getNumWaves());
-        w.labelWave.setText(text);
     }
 
     public static void setDifficulty(Difficulty d){
@@ -108,8 +107,13 @@ public class Controller {
         f.dispose();
         f = new JFrame();
         f.setSize(980, 680);
+        Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) screensize.getWidth() / 2 - Controller.f.getWidth() / 2;
+        int y = (int) screensize.getHeight() / 2 - Controller.f.getHeight() / 2;
+        f.setLocation(x, y);
         f.add(Controller.w);
         f.setVisible(true);
+        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         initialize();
         run();
     }
@@ -180,6 +184,7 @@ public class Controller {
                         case BOTTLE -> currMoney.addAndGet(Bottle.getSellPrice());
                         case SUNFLOWER -> currMoney.addAndGet(SunFlower.getSellPrice());
                         case SNOWFLOWER -> currMoney.addAndGet(SnowFlower.getSellPrice());
+                        case ARROW -> currMoney.addAndGet(Arrow.getSellPrice());
                     }
                     map.setMapElement(y/80, x/80, MapElement.EMPTY);
                     break;
@@ -195,11 +200,15 @@ public class Controller {
         w.rotate(l, angle);
     }
 
-    // 选择子弹
+    // 旋转子弹
     public static void rotate(Bullet b, double angle){
         // 瓶子转向
         RotateJLabel l = allBulletLabels.get(Controller.allBullet.indexOf(b));
         w.rotate(l, angle);
+    }
+
+    public static void updateCircle(int x, int y, TowerType t){
+        w.updateCircle(x, y, t);
     }
 
 
@@ -212,19 +221,14 @@ public class Controller {
         // 当前一波所有怪物已经生成且被消灭
         if ((currWave == 0 || (currMonster == level.getNumMonsters() && allMonster.isEmpty())) && currWave < level.getNumWaves()){
             currWave += 1;
-            String text = w.labelWave.getText();
-            if (currWave < 10){
-                text = text.replaceFirst(text.substring(0, 2), "0" + currWave);
-            }
-            else{
-                text = text.replaceFirst(text.substring(0, 2), "" + currWave);
-            }
-            w.labelWave.setText(text);
-//            assert allMonster.isEmpty();
+            w.setWave(currWave);
             currMonster = 0;
             MonsterAddThread monsterAddThread = new MonsterAddThread();
             Thread t = new Thread(monsterAddThread);
             t.start();
+
+            // 每一波怪物的血量逐渐增加
+            level.setMonsterHP();
         }
 
     }
@@ -250,9 +254,9 @@ public class Controller {
                 }
             }
             // 怪物的生成间歇为一个随机数
-            int random = r.nextInt(4000);
+            int random = r.nextInt(2000);
             try {
-                Thread.sleep(random);
+                Thread.sleep(1500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -306,7 +310,6 @@ public class Controller {
                         w.panelMap.remove(mPanel);
                         w.repaint();
                         monsterPanelIterator.remove();
-                        arrivedMonster += 1;
                     }
                 }
 
@@ -376,23 +379,12 @@ public class Controller {
     public static boolean isGamePause(){
         return gamePauseFlag;
     }
-
-    public static MapElement getMapElement(int row, int column){
-        return map.getMapElement(row, column);
-    }
-    public static int getCurrWave(){
-        return currWave;
-    }
-    public static int getNumWave(){
-        return level.getNumWaves();
-    }
-
     public static boolean isTowerAvailable(TowerType type, int row, int column){
-//        TowerType t =
         switch (type){
             case BOTTLE -> {
                 return currMoney.get() >= Bottle.getBuyPrice();
             }
+            // 太阳花和雪花不能放在第一排和第一列
             case SUNFLOWER -> {
                 return currMoney.get() >= SunFlower.getBuyPrice() && row!=0 && column !=0;
             }
@@ -407,12 +399,22 @@ public class Controller {
             }
         }
     }
+
+    public static MapElement getMapElement(int row, int column){
+        return map.getMapElement(row, column);
+    }
+    public static int getCurrWave(){
+        return currWave;
+    }
+    public static int getNumWave(){
+        return level.getNumWaves();
+    }
+
 }
 
 // 所有防御塔线程
 class TowerAttackThread implements Runnable{
     @Override
-    @SuppressWarnings("InfiniteLoopStatement")
     public void run() {
         while(!Controller.isGameEnd()){
             if(Controller.isGamePause()){
@@ -453,9 +455,7 @@ class MonsterMoveThread implements Runnable{
             }
             Controller.allMonsterMove();
             try {
-//                double sleepTime = 2.0/Controller.level.getMonsterSpeed();
-//                System.out.println(sleepTime);
-                Thread.sleep(2);
+                Thread.sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

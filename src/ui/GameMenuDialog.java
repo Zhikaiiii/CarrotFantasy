@@ -74,8 +74,13 @@ public class GameMenuDialog extends JDialog {
             Controller.f = new JFrame();
             StartWindow p = new StartWindow();
             Controller.f.setSize(700, 500);
+            Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
+            int x = (int) screensize.getWidth() / 2 - Controller.f.getWidth() / 2;
+            int y = (int) screensize.getHeight() / 2 - Controller.f.getHeight() / 2;
+            Controller.f.setLocation(x, y);
             Controller.f.add(p);
             Controller.f.setVisible(true);
+            Controller.f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
 
         private void initComponents() {
@@ -88,13 +93,6 @@ public class GameMenuDialog extends JDialog {
             //======== this ========
             setPreferredSize(new Dimension(442, 280));
             setOpaque(false);
-            setBorder (new javax. swing. border. CompoundBorder( new javax .swing .border .TitledBorder (new javax.
-            swing. border. EmptyBorder( 0, 0, 0, 0) , "JFor\u006dDesi\u0067ner \u0045valu\u0061tion", javax. swing. border
-            . TitledBorder. CENTER, javax. swing. border. TitledBorder. BOTTOM, new java .awt .Font ("Dia\u006cog"
-            ,java .awt .Font .BOLD ,12 ), java. awt. Color. red) , getBorder
-            ( )) );  addPropertyChangeListener (new java. beans. PropertyChangeListener( ){ @Override public void propertyChange (java
-            .beans .PropertyChangeEvent e) {if ("bord\u0065r" .equals (e .getPropertyName () )) throw new RuntimeException
-            ( ); }} );
             setLayout(new FlowLayout(FlowLayout.LEFT, 80, 1));
 
             //---- buttonResume ----

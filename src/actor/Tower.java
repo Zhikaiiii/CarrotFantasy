@@ -5,7 +5,7 @@ import control.TowerType;
 public abstract class Tower extends Actor {
     // 攻击力
     protected int attackPower;
-    protected int attackRange;
+    protected double attackRange;
 
     // 冷却时间
     protected int attackInterval;
@@ -21,7 +21,7 @@ public abstract class Tower extends Actor {
     public int getAttackPower(){
         return attackPower;
     }
-    public int getAttackRange(){
+    public double getAttackRange(){
         return attackRange;
     }
     public int getAttackInterval(){
@@ -30,10 +30,10 @@ public abstract class Tower extends Actor {
     public TowerType getTowerType() {
         return type;
     }
-
     public int getCount(){
         return count;
     }
+
     public void setCount(int count){
         this.count = count;
     }

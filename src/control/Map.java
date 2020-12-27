@@ -18,8 +18,6 @@ public class Map {
                     {3, 2, 4, 3, 2, 2, 2, 2, 3, 4, 2, 3},
                     {3, 2, 2, 2, 2, 4, 4, 2, 2, 2, 2, 3},
                     {3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3}};
-//            dColumn = new int[]{0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0};
-//            dRow = new int[]{1, 1, 1, 0, 0, 0, -1, 0, 0, 0, 1, 0, 0, 0, -1, -1, -1, -1};
             pathColumn = new int[]{1, 1, 1, 1, 2, 3, 4, 4, 5, 6, 7, 7, 8, 9, 10, 10, 10, 10};
             pathRow = new int[]{1, 2, 3, 4, 4, 4, 4, 3, 3, 3, 3, 4, 4, 4, 4, 3, 2, 1};
         }
@@ -31,8 +29,6 @@ public class Map {
                     {3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 4, 4},
                     {4, 4, 2, 4, 3, 4, 3, 3, 4, 4, 3, 3},
                     {3, 3, 2, 2, 2, 2, 2, 1, 4, 3, 3, 3}};
-//            dColumn = new int[]{1, 1, 1, 1, 1};
-//            dRow = new int[]{0, 0, 0, 0, };
             pathColumn = new int[]{4, 5, 6, 7, 8, 9, 9, 9, 8, 7, 6, 5, 4, 3, 2, 2, 2, 3, 4, 5, 6, 7};
             pathRow = new int[]{1, 1, 1, 1, 1, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 4, 5, 5, 5, 5, 5, 5};
         }
@@ -44,8 +40,6 @@ public class Map {
                     {3, 2, 4, 4, 4, 2, 2, 2, 3, 4, 3, 3},
                     {3, 2, 3, 4, 4, 2, 4, 4, 4, 4, 3, 3},
                     {3, 2, 2, 2, 2, 2, 3, 4, 4, 4, 3, 3}};
-//            dColumn = new int[]{0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 0};
-//            dRow = new int[]{1, 1, 1, 0, 0, 0, -1, 0, 0, 0, 1, 0, 0, 0, -1, -1, -1, -1};
             pathColumn = new int[]{1, 1, 1, 1, 2, 3, 4, 5, 5, 5, 6, 7, 7, 7, 8, 8, 9, 10};
             pathRow = new int[]{2, 3, 4, 5, 5, 5, 5, 5, 4, 3, 3, 3, 2, 1, 1, 2, 2, 2};
 
@@ -58,6 +52,7 @@ public class Map {
         }
         interval = 80;
     }
+
     public MapElement getMapElement(int row, int column){
         return MapElement.values()[map[row][column]];
     }
@@ -76,7 +71,6 @@ public class Map {
     public int getEndRow(){
         return pathRow[pathRow.length - 1];
     }
-
 
     // 得到 下一步的方向
     public int getDColumn(int position){
